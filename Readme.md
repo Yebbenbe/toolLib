@@ -93,7 +93,7 @@ These routes deal with creating and managing borrowing transactions.
         - GET /api/transactions/:id: Get specific transaction details.
             - Controller: transactionControllers.getTransactionById
 
-- Requests Service: 
+- Requests Service Routes: 
 Handling requests and user alerts related to user interactions with the system.
     - Requests
         - GET /api/requests: Fetch requests for a user.
