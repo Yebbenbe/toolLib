@@ -1,5 +1,8 @@
 1. React Components:
 
+- Main Components:
+    The main component to contain all other components.
+    
 - Core Layout Components:
 These components form the basic structure of your application, providing the framework on which page-specific components are mounted.
     - Navbar:
@@ -49,6 +52,7 @@ Reusable utility components that might be used across various parts of the appli
 - Support and Miscellaneous Components:
 LOW PRIORITY Components for help, FAQs, and other general user support.
     - Help:
+        - IntroPage: Contains intro information.
         - HelpPage: Contains FAQs and other help-related information.
         - SupportContactForm: A form for users to contact support for help.
 
