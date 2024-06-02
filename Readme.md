@@ -1,35 +1,34 @@
 1. React Components:
 
-- Main Components:
-    The main component to contain all other components.
-    
 - Core Layout Components:
 These components form the basic structure of your application, providing the framework on which page-specific components are mounted.
+    - Main Container
+        - Main Component: The main component for rendering the webpage.
     - Navbar:
         - Navbar: The main navigation bar component that adapts based on user authentication status.
-        - NavLinks: Displays links based on user role (e.g., Borrow, Lend, My Account).
+        - NavLinks: Displays links based on user role (e.g., Borrow, Lend, My Account). For logged in, list "Tool", "Library / Borrow",  "List Item / Lend", "My Account", "Help". For logged out, list "Login", "Register".
         - NotificationIcon: An icon that shows notifications with a visual indicator for new activity.
     - Footer:
         - Footer: A basic footer component for site-wide links or copyright information.
 
-- Tool Management Components:
+- Item Management Components:
 Components related to listing, managing, and viewing tool details.
-    - Tool Library:
-        - ToolList: Displays a list of tool cards.
-        - ToolCard: A card that shows brief information about a tool, clickable for more details.
-        - ToolDetailsModal: A modal or detailed page that opens when a ToolCard is clicked, showing extended information and interaction options like borrowing.
-    - Manage Tools:
-        - AddToolForm: Form for adding new tools.
-        - EditToolForm: Form for editing existing tool details.
+    - Item Library:
+        - ItemList: Displays a list of item cards.
+        - ItemCard: A card that shows brief information about a tool, clickable for more details.
+        - ItemDetailsModal: A modal or detailed page that opens when a ItemCard is clicked, showing extended information and interaction options like borrowing.
+    - Manage Items:
+        - AddItemForm: Form for adding new tools.
+        - EditItemForm: Form for editing existing tool details.
 
 - Borrowing and Lending Components:
 These components handle the functionalities specific to borrowing and lending tools.
     - Borrowing:
         - BorrowPage: Main page for tool borrowing, including search and filter - capabilities.
-        - ToolRequestForm: Form used to request to borrow a tool.
+        - ItemRequestForm: Form used to request to borrow a tool.
     - Lending:
         - LendPage: Main page for managing tools that a user is lending out.
-        - ToolAvailabilityManager: Component for managing when a tool is available for lending.
+        - ItemAvailabilityManager: Component for managing when a tool is available for lending.
 
 - Transaction and History Components:
 Components for managing and viewing past transactions and activities.
@@ -50,7 +49,7 @@ Reusable utility components that might be used across various parts of the appli
         - Input: Reusable input component for forms.
 
 - Support and Miscellaneous Components:
-LOW PRIORITY Components for help, FAQs, and other general user support.
+LOW PRIORITY Components for help, FAQs, and other general user support. 
     - Help:
         - IntroPage: Contains intro information.
         - HelpPage: Contains FAQs and other help-related information.
