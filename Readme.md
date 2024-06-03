@@ -1,3 +1,24 @@
+# Tool Lib Project
+
+## How to use
+### frontend
+- For first time:
+    - `npm install`
+- `cd frontend`
+- `npm start`
+
+### backend
+- Start psql database:
+    - `startpostgres`
+- For first time:
+    - `npm install`
+    - setup database and sample data:
+        -  Firstly connect to database with `psql`
+        - Then load the database and sample data with `\i path\to\schema.sql`
+- `npm start`
+
+
+## Project structure
 1. React Components:
 
 - Core Layout Components:

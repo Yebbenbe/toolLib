@@ -1,3 +1,7 @@
+CREATE DATABASE toollib_development;
+
+\c toollib_development
+
 CREATE TABLE Users (
     UserID SERIAL PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
@@ -48,4 +52,26 @@ CREATE TABLE User_Tool (  -- bridge table for borrower<>lender interaction
     FOREIGN KEY (ToolID) REFERENCES Tools(ToolID)
 );
 
+-- Insert sample data into the Users table
+INSERT INTO Users (Name, Address, Email, Phone, LendingDiameter, Latitude, Longitude)
+VALUES
+('John Doe', '1234 Maple St, Anytown, AN', 'john.doe@example.com', '555-1234', 10, 40.7128, -74.0060),
+('Jane Smith', '5678 Oak St, Othertown, OT', 'jane.smith@example.com', '555-5678', 5, 34.0522, -118.2437);
 
+-- Insert sample data into the Tools table
+INSERT INTO Tools (Name, Picture, Description, Deposit, Charge, Teachable, DI4U, OwnerID)
+VALUES
+('Hammer', 'path/to/hammer.jpg', 'A sturdy hammer suitable for all types of carpentry work.', 20.00, 2.00, TRUE, FALSE, 1),
+('Screwdriver', 'path/to/screwdriver.jpg', 'A flat-head screwdriver, ideal for basic home repairs.', 15.00, 1.50, FALSE, TRUE, 2);
+
+-- Insert sample data into the History table
+INSERT INTO History (LenderID, BorrowerID, ToolID, LenderApproval, BorrowerApproval, BorrowerFeedback, LenderFeedback)
+VALUES
+(1, 2, 1, TRUE, TRUE, 'Great condition, worked perfectly.', 'Prompt return, excellent borrower.'),
+(2, 1, 2, TRUE, TRUE, 'Useful tool, easy to handle.', 'Took good care of the tool.');
+
+-- Insert sample data into the User_Tool table
+INSERT INTO User_Tool (UserID, ToolID)
+VALUES
+(1, 1),
+(2, 2);
