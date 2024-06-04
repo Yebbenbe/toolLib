@@ -5,17 +5,17 @@ import PhotoFavButton from "../components/PhotoFavButton.jsx";
 
 const PhotoListItem = (props) => {
   const handleClick = () => {
-    props.setSelectedPhoto(props.photoDetails.id);
+    props.setSelectedPhoto(props.toolDetails.toolid);
   }
 
   return (
     <div className="photo-list__item" >
-      <PhotoFavButton photoId={props.photoDetails.id} favourites={props.favourites} setFavourite={props.setFavourite} />
-      <img className="photo-list__image" onClick={handleClick} src={props.photoDetails.urls.regular} />
+      <PhotoFavButton photoId={props.toolDetails.toolid} favourites={props.favourites} setFavourite={props.setFavourite} />
+      <img className="photo-list__image" onClick={handleClick} src={props.toolDetails.picture} />
       <div className="photo-list__user-details">
-        <img className="photo-list__user-profile" src={props.photoDetails.user.profile} />
-        <div className="photo-list__user-location">{props.photoDetails.location.city}, {props.photoDetails.location.country}</div>
-        <div className="photo-list__user-info">{props.photoDetails.user.username}</div>
+        <div className="photo-list__user-location">{props.toolDetails.name}</div>
+        <div className="photo-list__user-info">{props.toolDetails.charge}</div>
+        <div className="photo-list__user-info">{props.toolDetails.deposit}</div>
       </div>
 
     </div>

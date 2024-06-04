@@ -7,10 +7,11 @@ import TopNavigation from 'components/TopNavigationBar';
 
 const HomeRoute = (props) => {
   console.log(props.state.tools);
+  console.log(props.state.photos);
   return (
     <div className="home-route">
       < TopNavigation topics={props.state.topics} onClickTopic={props.onClickTopic} favourites={props.state.favPhotoIds} />
-      < PhotoList photos={props.state.photos} setSelectedPhoto={props.setSelectedPhoto} favourites={props.state.favPhotoIds} setFavourite={props.setFavourite} />
+      < PhotoList tools={props.state.tools} photos={props.state.photos} setSelectedPhoto={props.setSelectedPhoto} favourites={props.state.favPhotoIds} setFavourite={props.setFavourite} />
     </div >
   );
 };

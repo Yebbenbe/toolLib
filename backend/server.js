@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const db = require('./db');
 const app = express();
 const PORT = 3001;
@@ -9,6 +10,9 @@ const cors = require('cors');
 app.use(cors());
 
 app.use(express.json());
+
+// Serve static files from the "public" directory
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Get all users
 app.get('/api/users', async (req, res) => {
