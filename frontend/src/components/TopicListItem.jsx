@@ -4,12 +4,12 @@ import "../styles/TopicListItem.scss";
 
 const TopicListItem = (props) => {
   const handleClick = () => {
-    props.onClickTopic(props.topicDetails.id)
+    props.onClickTopic(props.optionDetails.id)
   }
 
   return (
     <div className="topic-list__item" onClick={handleClick}>
-      <span>{props.topicDetails.title}</span>
+      <span>{props.optionDetails.name}</span>
     </div>
   );
 };
