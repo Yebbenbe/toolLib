@@ -2,12 +2,13 @@
 
 ## How to use
 ### frontend
+- `cd frontend`
 - For first time:
     - `npm install`
-- `cd frontend`
 - `npm start`
 
 ### backend
+- `cd backend`
 - Start psql database:
     - `startpostgres`
 - For first time:

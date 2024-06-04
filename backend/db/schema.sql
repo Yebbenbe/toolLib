@@ -61,8 +61,8 @@ VALUES
 -- Insert sample data into the Tools table
 INSERT INTO Tools (Name, Picture, Description, Deposit, Charge, Teachable, DI4U, OwnerID)
 VALUES
-('Hammer', 'public/images/hammer.jpg', 'A sturdy hammer suitable for all types of carpentry work.', 20.00, 2.00, TRUE, FALSE, 1),
-('Screwdriver', 'public/images/screwdriver.jpg', 'A flat-head screwdriver, ideal for basic home repairs.', 15.00, 1.50, FALSE, TRUE, 2);
+('Hammer', 'http://localhost:3001/public/images/hammer.jpg', 'A sturdy hammer suitable for all types of carpentry work.', 20.00, 2.00, TRUE, FALSE, 1),
+('Screwdriver', 'http://localhost:3001/public/images/screwdriver.jpg', 'A flat-head screwdriver, ideal for basic home repairs.', 15.00, 1.50, FALSE, TRUE, 2);
 
 -- Insert sample data into the History table
 INSERT INTO History (LenderID, BorrowerID, ToolID, LenderApproval, BorrowerApproval, BorrowerFeedback, LenderFeedback)
