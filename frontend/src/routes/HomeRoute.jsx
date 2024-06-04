@@ -10,8 +10,8 @@ const HomeRoute = (props) => {
   console.log(props.state.photos);
   return (
     <div className="home-route">
-      < TopNavigation topics={props.state.topics} onClickTopic={props.onClickTopic} favourites={props.state.favPhotoIds} />
-      < PhotoList tools={props.state.tools} photos={props.state.photos} setSelectedPhoto={props.setSelectedPhoto} favourites={props.state.favPhotoIds} setFavourite={props.setFavourite} />
+      < TopNavigation onClickTopic={props.onClickTopic} />
+      < PhotoList tools={props.state.tools} setSelectedPhoto={props.setSelectedPhoto} favourites={props.state.favPhotoIds} setFavourite={props.setFavourite} />
     </div >
   );
 };

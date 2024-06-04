@@ -10,9 +10,6 @@ const PhotoList = (props) => {
       <PhotoListItem key={tool.toolid} toolDetails={tool} setSelectedPhoto={props.setSelectedPhoto} favourites={props.favourites} setFavourite={props.setFavourite} />
     );
   }
-  const photos = props.photos.map((photo, index) =>
-    <PhotoListItem key={photo.id} photoDetails={photo} setSelectedPhoto={props.setSelectedPhoto} favourites={props.favourites} setFavourite={props.setFavourite} />
-  );
 
   return (
     <ul className="photo-list">

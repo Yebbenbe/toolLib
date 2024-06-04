@@ -3,8 +3,6 @@ import React, {useEffect, useReducer} from "react";
 const useApplicationData = () => {
     const [state, dispatch] = useReducer(reducer, {
       tools: [],
-      photos: [],
-      topics: [],
       selectedPhoto: {
         "id": null,
         "location": {
@@ -42,31 +40,6 @@ const useApplicationData = () => {
             return ({ ...state, 
               tools: action.toolData, 
             });
-        case ACTIONS.SET_PHOTO_DATA:
-          return ({ ...state, 
-            photos: action.photoData, 
-            selectedPhoto: {
-              "id": "-1",
-              "location": {
-                "city": "",
-                "country": ""
-              },
-              "urls": {
-                "full": ``,
-                "regular": ``
-              },
-              "user": {
-                "id": "",
-                "username": "",
-                "name": "",
-                "profile": ``
-              }
-          },
-        });
-        case ACTIONS.SET_TOPIC_DATA:
-          return ({ ...state, 
-            topics: action.topicData, 
-          });
         case ACTIONS.SELECT_PHOTO:
           return ({
             ...state,
@@ -90,34 +63,10 @@ const useApplicationData = () => {
       }
     };
 
-    const loadPhotoData = async (photoData) => {
-      try {
-        dispatch({type: ACTIONS.SET_PHOTO_DATA, photoData: photoData})
-      } catch (error) {
-        console.error('Failed to load photo data:', error);
-      }
-    };
-
-    const loadTopicData = async (topicData) => {
-      try {
-        dispatch({type: ACTIONS.SET_TOPIC_DATA, topicData: topicData})
-      } catch (error) {
-        console.error('Failed to load topic data:', error);
-      }
-    };
-
     useEffect(() => {
       fetch('http://localhost:3001/api/tools')
      .then(res => res.json())
      .then(toolData => {loadToolData(toolData)})
-
-      fetch('http://localhost:8001/api/photos')
-     .then(res => res.json())
-     .then(photoData => {loadPhotoData(photoData)})
-
-     fetch('http://localhost:8001/api/topics')
-     .then(res => res.json())
-     .then(topicData => {loadTopicData(topicData)})
     }, []);
 
     const onPhotoSelect = photoId => {
@@ -127,15 +76,6 @@ const useApplicationData = () => {
         throw new Error(
           `Photo ID does not exist: ${photoId}`
         );
-      }
-    };
-
-    const updateToFavPhotoIds = photoId => {
-      console.log(photoId)
-      if(state.favPhotoIds.includes(photoId)){
-        dispatch({type: ACTIONS.FAV_PHOTO_REMOVED, photoId: photoId});
-      }else{
-        dispatch({type: ACTIONS.FAV_PHOTO_ADDED, photoId: photoId});
       }
     };
 
@@ -168,8 +108,6 @@ export const ACTIONS = {
   FAV_PHOTO_ADDED: 'FAV_PHOTO_ADDED',
   FAV_PHOTO_REMOVED: 'FAV_PHOTO_REMOVED',
   SET_TOOL_DATA: 'SET_TOOL_DATA',
-  SET_PHOTO_DATA: 'SET_PHOTO_DATA',
-  SET_TOPIC_DATA: 'SET_TOPIC_DATA',
   SELECT_PHOTO: 'SELECT_PHOTO',
   DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS'
 }
