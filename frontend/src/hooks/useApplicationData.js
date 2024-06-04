@@ -43,7 +43,7 @@ const useApplicationData = () => {
         case ACTIONS.SELECT_PHOTO:
           return ({
             ...state,
-            selectedPhoto: state.photos.find(photo => photo.id === action.photoId),
+            selectedPhoto: state.tools.find(tool => tool.toolid === action.toolid),
             isPhotoDetailsModalOpen: true
           });
         case ACTIONS.DISPLAY_PHOTO_DETAILS:
@@ -69,13 +69,22 @@ const useApplicationData = () => {
      .then(toolData => {loadToolData(toolData)})
     }, []);
 
-    const onPhotoSelect = photoId => {
-      if(state.photos.find(photo => photo.id === photoId)){
-        dispatch({type: ACTIONS.SELECT_PHOTO, photoId: photoId});
+    const onPhotoSelect = toolid => {
+      if(state.tools.find(tool => tool.toolid === toolid)){
+        dispatch({type: ACTIONS.SELECT_PHOTO, toolid: toolid});
       }else{
         throw new Error(
-          `Photo ID does not exist: ${photoId}`
+          `Photo ID does not exist: ${toolid}`
         );
+      }
+    };
+
+    const updateToFavPhotoIds = photoId => {
+      console.log(photoId)
+      if(state.favPhotoIds.includes(photoId)){
+        dispatch({type: ACTIONS.FAV_PHOTO_REMOVED, photoId: photoId});
+      }else{
+        dispatch({type: ACTIONS.FAV_PHOTO_ADDED, photoId: photoId});
       }
     };
 

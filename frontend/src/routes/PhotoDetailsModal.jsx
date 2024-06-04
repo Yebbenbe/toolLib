@@ -47,17 +47,17 @@ const PhotoDetailsModal = (props) => {
       </div>
 
       <div className="photo-details-modal__header">
-        <PhotoFavButton photoId={props.state.selectedPhoto.id} favourites={props.state.favourites} setFavourite={props.setFavourite} />
-        <img className="photo-details-modal__image" src={props.state.selectedPhoto.urls.full} />
+        {/* <PhotoFavButton photoId={props.state.selectedPhoto.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
+        <img className="photo-details-modal__image" src={props.state.selectedPhoto.picture} />
         <div className="photo-details-modal__photographer-details">
-          <img className="photo-details-modal__photographer-profile" src={props.state.selectedPhoto.user.profile} />
-          <div className="photo-details-modal__photographer-location">{props.state.selectedPhoto.location.city}, {props.state.selectedPhoto.location.country}</div>
-          <div className="photo-details-modal__photographer-info">{props.state.selectedPhoto.user.username}</div>
+          <div className="photo-details-modal__photographer-profile" >{props.state.selectedPhoto.name}</div>
+          <div className="photo-details-modal__photographer-location">{props.state.selectedPhoto.charge}, {props.state.selectedPhoto.deposit}</div>
+          <div className="photo-details-modal__photographer-info">{props.state.selectedPhoto.description}</div>
         </div>
-        <div>Similar Photos</div>
+        {/* <div>Similar Photos</div>
         <div className='photo-details-modal__top-bar'>
           <PhotoList photos={similarPhotosList} favourites={props.favourites} setFavourite={props.setFavourite} />
-        </div>
+        </div> */}
       </div>
     </div>
   )
