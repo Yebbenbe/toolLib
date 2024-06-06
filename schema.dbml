@@ -1,9 +1,9 @@
 Table Users {
   UserID int [primary key, unique, note: 'Auto-incrementing primary key']
-  Name varchar(255) [not null]
-  Address varchar(255) [not null]
-  Email varchar(255) [not null, unique, note: 'User email address']
-  Phone varchar(20)
+  Name text [not null]
+  Address text [not null]
+  Email text [not null, unique, note: 'User email address']
+  Phone varchar(10)
   LendingDiameter int [note: 'In kilometers, how far out they are willing to lend']
   Latitude float [note: 'For storing latitude of the address']
   Longitude float [note: 'For storing longitude of the address']
@@ -16,24 +16,31 @@ Table Tools {
   Description text
   Deposit decimal(10, 2) [note: 'Deposit requested (to be returned to borrower)']
   Charge decimal(10, 2) [note: 'Fee amount (to be decided if implemented)']
-  Teachable bool [note: 'Whether lender is free to teach borrower how to use the tool']
   DI4U bool [note: 'Whether the tool is available for drop-in-for-use']
-  OwnerID int [note: 'Foreign key referencing Users(UserID)']
+  OwnerID int [ref: > Users.UserID, note: 'Foreign key referencing Users(UserID)']
 }
 
-Table History {
-  HistoryID int [primary key, unique, note: 'Auto-incrementing primary key']
-  LenderID int [ref: > Users.UserID, note: 'Foreign key referencing Users(UserID)']
+Table Requests [note: 'for all borow/lend transactions and history'] {
+  TransactionID int [primary key, unique, note:'auto-incrementing']
+  OwnerID int [ref: > Users.UserID, note: 'Foreign key referencing Users(UserID)'] 
   BorrowerID int [ref: > Users.UserID, note: 'Foreign key referencing Users(UserID)']
   ToolID int [ref: > Tools.ToolID, note: 'Foreign key referencing Tools(ToolID)']
-  LenderApproval bool [note: 'Whether lender approves the transaction, basically a thumbs up/down']
-  BorrowerApproval bool [note: 'Whether borrower approves the transaction']
+  Status RequestStatus [note: 'Status of the lending request']
+  LenderRating bool [note: 'Whether lender approves the transaction, basically a thumbs up/down']
+  BorrowerRating bool [note: 'Whether borrower approves the transaction']
   BorrowerFeedback text [note: 'Any text notes to leave']
   LenderFeedback text [note: 'Any text notes to leave']
-  Timestamp timestamp [note: 'Timestamp of the transaction', default: 'CURRENT_TIMESTAMP']
+  RequestDate timestamp [default: `now()`, note: 'Date and time when the request was made']
+  ApproveDate timestamp [note: 'Date and time when the request was approved']
+  BorrowDate timestamp [note: 'Date and time when the tool was borrowed']
+  ReturnDate timestamp [note: 'Date and time when the tool was returned']
+
 }
 
-Table User_Tool [note: 'Bridge table for borrower<>lender interaction'] {
-  UserID int [ref: > Users.UserID]
-  ToolID int [ref: > Tools.ToolID]
+Enum RequestStatus {
+    Pending
+    Approved
+    Borrowed
+    Returned
+    NotReturned [note: 'Tool was not returned']
 }
