@@ -1,4 +1,4 @@
-const photo1 = {
+const tool1 = {
   "id": "1",
   "location": {
     "city": "Montreal",
@@ -16,7 +16,7 @@ const photo1 = {
   }
 }
 
-const photo2 = {
+const tool2 = {
   "id": "2",
   "location": {
     "city": "Toronto",
@@ -34,7 +34,7 @@ const photo2 = {
   }
 }
 
-const photo3 = {
+const tool3 = {
   "id": "3",
   "location": {
     "city": "Ottawa",
@@ -52,7 +52,7 @@ const photo3 = {
   }
 }
 
-const photo4 = {
+const tool4 = {
   "id": "4",
   "location": {
     "city": "Quebec",
@@ -71,7 +71,7 @@ const photo4 = {
   }
 }
 
-const photo5 = {
+const tool5 = {
   "id": "5",
   "location": {
     "city": "Vancouver",
@@ -89,7 +89,7 @@ const photo5 = {
   }
 }
 
-const photo6 =  {
+const tool6 =  {
   "id": "6",
   "location": {
     "city": "Montreal",
@@ -107,7 +107,7 @@ const photo6 =  {
   }
 }
 
-const photo7 = {
+const tool7 = {
   "id": "7",
   "location": {
     "city": "Calgary",
@@ -125,7 +125,7 @@ const photo7 = {
   }
 }
 
-const photo8 = {
+const tool8 = {
   "id": "8",
   "location": {
     "city": "Ottawa",
@@ -143,7 +143,7 @@ const photo8 = {
   }
 }
 
-const photo9 = {
+const tool9 = {
   "id": "9",
   "location": {
     "city": "Nova Scotia",
@@ -161,7 +161,7 @@ const photo9 = {
   }
 }
 
-const photo10 = {
+const tool10 = {
   "id": "10",
   "location": {
     "city": "Edmonton",
@@ -182,97 +182,97 @@ const photo10 = {
 
 
 
-const photos = [
+const tools = [
   {
-    ...photo1,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool1,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo2,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool2,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo3,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool3,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo4,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool4,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo5,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool5,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo6,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool6,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo7,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool7,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo8,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool8,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo9,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool9,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   },
   {
-    ...photo10,
-    similar_photos: {
-      photo2,
-      photo3,
-      photo4,
-      photo5,
+    ...tool10,
+    similar_tools: {
+      tool2,
+      tool3,
+      tool4,
+      tool5,
     }
   }
 ]
 
-export default photos;
+export default tools;

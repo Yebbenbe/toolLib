@@ -3,22 +3,22 @@ import React, { useState } from 'react';
 
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
-import PhotoDetailsModal from 'routes/PhotoDetailsModal';
+import ToolDetailsModal from 'routes/ToolDetailsModal';
 import useApplicationData from 'hooks/useApplicationData';
 
 const App = () => {
   const {
     state,
-    onPhotoSelect,
-    updateToFavPhotoIds,
-    onClosePhotoDetailsModal,
+    onToolSelect,
+    updateToFavToolIds,
+    onCloseToolDetailsModal,
     onClickTopic,
   } = useApplicationData();
 
   return (
     < div className="App" >
-      < HomeRoute state={state} onClickTopic={onClickTopic} setSelectedPhoto={onPhotoSelect} setFavourite={updateToFavPhotoIds} />
-      < PhotoDetailsModal photos={state.photos} onClosePhotoDetailsModal={onClosePhotoDetailsModal} setSelectedPhoto={onPhotoSelect} state={state} setFavourite={updateToFavPhotoIds} />
+      < HomeRoute state={state} onClickTopic={onClickTopic} setSelectedTool={onToolSelect} setFavourite={updateToFavToolIds} />
+      < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setFavourite={updateToFavToolIds} />
     </div >
   )
 }

@@ -1,4 +1,4 @@
-.photo-details-modal {
+.tool-details-modal {
   background-color: white;
   box-shadow: 0 0 0 50vmax rgba(0, 0, 0, .5);
   position: absolute;
@@ -11,7 +11,7 @@
   border-radius: 12px;
 }
 
-.photo-details-modal__close-button {
+.tool-details-modal__close-button {
   background-color: white;
   border: none;
   color: white;
@@ -24,17 +24,17 @@
   margin-top: 16px;
 }
 
-.photo-details-modal__images {
+.tool-details-modal__images {
   margin-left: 36px;
   margin-top: 8px;
 }
 
-.photo-details-modal__image {
+.tool-details-modal__image {
   max-width: 95%;
   max-height: 80%;
 }
 
-.photo-details-modal__top-bar {
+.tool-details-modal__top-bar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -43,12 +43,12 @@
   align-items: center;
 }
 
-.photo-details-modal__photographer-details {
+.tool-details-modal__toolgrapher-details {
   display: flex;
   font-size: 16px;
 }
 
-.photo-details-modal__header {
+.tool-details-modal__header {
   font-size: 18px;
   font-weight: 500;
   color: #1e1e1e;
@@ -58,11 +58,11 @@
   width: 100%;
 }
 
-.photo-details-modal__photographer-location {
+.tool-details-modal__toolgrapher-location {
   color: #838383;
 }
 
-.photo-details-modal__photographer-profile {
+.tool-details-modal__toolgrapher-profile {
   object-fit: cover;
   border-radius: 100%;
   vertical-align: middle;
@@ -71,7 +71,7 @@
   height: 40px;
 }
 
-.photo-details-modal__photographer-info {
+.tool-details-modal__toolgrapher-info {
   margin-top: 5px;
   font-weight: 700;
   font-size: 12px;

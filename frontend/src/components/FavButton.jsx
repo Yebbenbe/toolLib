@@ -6,15 +6,15 @@ import '../styles/FavButton.scss';
 function FavButton(props) {
   const [selected, setSelected] = useState(false);
   const handleClick = () => {
-    if (props.photoId < 0) {
+    if (props.toolId < 0) {
       return;
     }
-    props.setFavourite(props.photoId);
+    props.setFavourite(props.toolId);
   }
 
   useEffect(() => {
     if (props.favourites != undefined) {
-      if (props.favourites.indexOf(props.photoId) >= 0) {
+      if (props.favourites.indexOf(props.toolId) >= 0) {
         console.log("get true")
         setSelected(true);
       } else {
@@ -23,8 +23,8 @@ function FavButton(props) {
     }
   }, [props.favourites]);
   return (
-    <div className="photo-list__fav-icon" onClick={handleClick}>
-      <div className="photo-list__fav-icon-svg">
+    <div className="tool-list__fav-icon" onClick={handleClick}>
+      <div className="tool-list__fav-icon-svg">
         <FavIcon selected={selected} />
       </div>
     </div>

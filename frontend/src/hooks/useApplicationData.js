@@ -3,7 +3,7 @@ import React, {useEffect, useReducer} from "react";
 const useApplicationData = () => {
     const [state, dispatch] = useReducer(reducer, {
       tools: [],
-      selectedPhoto: {
+      selectedTool: {
         "id": null,
         "location": {
           "city": null,
@@ -20,8 +20,8 @@ const useApplicationData = () => {
           "profile": null
         }
     },
-      favPhotoIds: [],
-      isPhotoDetailsModalOpen: false,
+      favToolIds: [],
+      isToolDetailsModalOpen: false,
     });
     
     function reducer(state, action) {
@@ -29,12 +29,12 @@ const useApplicationData = () => {
         case ACTIONS.FAV_PHOTO_ADDED:
           return ({
             ...state,
-            favPhotoIds: [...state.favPhotoIds, action.photoId]
+            favToolIds: [...state.favToolIds, action.toolId]
           });
         case ACTIONS.FAV_PHOTO_REMOVED:
           return ({
             ...state,
-            favPhotoIds: state.favPhotoIds.filter(id => id !== action.photoId)
+            favToolIds: state.favToolIds.filter(id => id !== action.toolId)
           });
         case ACTIONS.SET_TOOL_DATA:
             return ({ ...state, 
@@ -43,11 +43,11 @@ const useApplicationData = () => {
         case ACTIONS.SELECT_PHOTO:
           return ({
             ...state,
-            selectedPhoto: state.tools.find(tool => tool.toolid === action.toolid),
-            isPhotoDetailsModalOpen: true
+            selectedTool: state.tools.find(tool => tool.toolid === action.toolid),
+            isToolDetailsModalOpen: true
           });
         case ACTIONS.DISPLAY_PHOTO_DETAILS:
-          return ({ ...state, isPhotoDetailsModalOpen: false });
+          return ({ ...state, isToolDetailsModalOpen: false });
         default:
           throw new Error(
             `Tried to reduce with unsupported action type: ${action.type}`
@@ -69,46 +69,46 @@ const useApplicationData = () => {
      .then(toolData => {loadToolData(toolData)})
     }, []);
 
-    const onPhotoSelect = toolid => {
+    const onToolSelect = toolid => {
       if(state.tools.find(tool => tool.toolid === toolid)){
         dispatch({type: ACTIONS.SELECT_PHOTO, toolid: toolid});
       }else{
         throw new Error(
-          `Photo ID does not exist: ${toolid}`
+          `Tool ID does not exist: ${toolid}`
         );
       }
     };
 
-    const updateToFavPhotoIds = photoId => {
-      console.log(photoId)
-      if(state.favPhotoIds.includes(photoId)){
-        dispatch({type: ACTIONS.FAV_PHOTO_REMOVED, photoId: photoId});
+    const updateToFavToolIds = toolId => {
+      console.log(toolId)
+      if(state.favToolIds.includes(toolId)){
+        dispatch({type: ACTIONS.FAV_PHOTO_REMOVED, toolId: toolId});
       }else{
-        dispatch({type: ACTIONS.FAV_PHOTO_ADDED, photoId: photoId});
+        dispatch({type: ACTIONS.FAV_PHOTO_ADDED, toolId: toolId});
       }
     };
 
-    const onClosePhotoDetailsModal = () => {
+    const onCloseToolDetailsModal = () => {
       dispatch({type: ACTIONS.DISPLAY_PHOTO_DETAILS});
     };
 
     const onClickTopic = (topicId) => {
-      fetch('http://localhost:3001/api/topics/photos/' + topicId)
+      fetch('http://localhost:3001/api/topics/tools/' + topicId)
      .then(res => res.json())
      .then(data => {
         try {
-            dispatch({type: ACTIONS.SET_PHOTO_DATA, photoData: data})
+            dispatch({type: ACTIONS.SET_PHOTO_DATA, toolData: data})
         } catch (error) {
-            console.error('Failed to load photo data:', error);
+            console.error('Failed to load tool data:', error);
         }
       })
     }
 
     return {
       state,
-      onPhotoSelect,
-      updateToFavPhotoIds,
-      onClosePhotoDetailsModal,
+      onToolSelect,
+      updateToFavToolIds,
+      onCloseToolDetailsModal,
       onClickTopic,
     };
 }
