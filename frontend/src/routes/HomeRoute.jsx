@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 
 import '../styles/HomeRoute.scss';
 
-import PhotoList from 'components/PhotoList';
+import ToolList from 'components/ToolList';
 import TopNavigation from 'components/TopNavigationBar';
 
 const HomeRoute = (props) => {
@@ -11,7 +11,7 @@ const HomeRoute = (props) => {
   return (
     <div className="home-route">
       < TopNavigation onClickTopic={props.onClickTopic} />
-      < PhotoList tools={props.state.tools} setSelectedPhoto={props.setSelectedPhoto} favourites={props.state.favPhotoIds} setFavourite={props.setFavourite} />
+      < ToolList tools={props.state.tools} setSelectedPhoto={props.setSelectedPhoto} favourites={props.state.favPhotoIds} setFavourite={props.setFavourite} />
     </div >
   );
 };

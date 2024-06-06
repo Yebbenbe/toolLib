@@ -5,7 +5,7 @@ import closeSymbol from '../assets/closeSymbol.svg';
 import photos from 'mocks/photos';
 import PhotoFavButton from 'components/PhotoFavButton';
 import FavBadge from 'components/FavBadge';
-import PhotoList from 'components/PhotoList';
+import ToolList from 'components/ToolList';
 
 //Initialize value to avoid render fail in the similar photos
 let similarPhotosList = [{
@@ -56,7 +56,7 @@ const PhotoDetailsModal = (props) => {
         </div>
         {/* <div>Similar Photos</div>
         <div className='photo-details-modal__top-bar'>
-          <PhotoList photos={similarPhotosList} favourites={props.favourites} setFavourite={props.setFavourite} />
+          <ToolList photos={similarPhotosList} favourites={props.favourites} setFavourite={props.setFavourite} />
         </div> */}
       </div>
     </div>

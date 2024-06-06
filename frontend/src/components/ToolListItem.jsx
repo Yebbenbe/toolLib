@@ -1,9 +1,9 @@
 import React from "react";
 
-import "../styles/PhotoListItem.scss";
-import PhotoFavButton from "../components/PhotoFavButton.jsx";
+import "../styles/ToolListItem.scss";
+import PhotoFavButton from "./PhotoFavButton.jsx";
 
-const PhotoListItem = (props) => {
+const ToolListItem = (props) => {
   const handleClick = () => {
     props.setSelectedPhoto(props.toolDetails.toolid);
   }
@@ -23,4 +23,4 @@ const PhotoListItem = (props) => {
   )
 };
 
-export default PhotoListItem;
+export default ToolListItem;

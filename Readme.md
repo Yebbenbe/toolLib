@@ -14,8 +14,8 @@
 - For first time:
     - `npm install`
     - setup database and sample data:
-        -  Firstly connect to database with `psql`
-        - Then load the database and sample data with `\i path\to\schema.sql`
+        - Firstly connect to database with `psql`
+        - Then load the database and sample data with `\i path\to\backend\db\schema.sql`
 - `npm start`
 
 
