@@ -6,7 +6,7 @@ const path = require('path');
 const db = require('./db/db');
 const app = express();
 const PORT = 3001;
-const toolsRouter = require('./router/tools');
+const toolsRouter = require('./routes/tools');
 
 const cors = require('cors');
 
