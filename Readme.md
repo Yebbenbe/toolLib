@@ -1,3 +1,25 @@
+# Tool Lib Project
+
+## How to use
+### frontend
+- `cd frontend`
+- For first time:
+    - `npm install`
+- `npm start`
+
+### backend
+- `cd backend`
+- Start psql database:
+    - `startpostgres`
+- For first time:
+    - `npm install`
+    - setup database and sample data:
+        - Firstly connect to database with `psql`
+        - Then load the database and sample data with `\i path\to\backend\db\schema.sql`
+- `npm start`
+
+
+## Project structure
 1. React Components:
 
 - Core Layout Components:
@@ -5,7 +27,7 @@ These components form the basic structure of your application, providing the fra
     - Main Container
         - Main Component: The main component for rendering the webpage.
     - Navbar:
-        - Navbar: The main navigation bar component that adapts based on user authentication status.
+        - Navbar: The main Navigation bar component that adapts based on user authentication status.
         - NavLinks: Displays links based on user role (e.g., Borrow, Lend, My Account). For logged in, list "Tool", "Library / Borrow",  "List Item / Lend", "My Account", "Help". For logged out, list "Login", "Register".
         - NotificationIcon: An icon that shows notifications with a visual indicator for new activity.
     - Footer:
