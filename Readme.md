@@ -27,7 +27,7 @@ These components form the basic structure of your application, providing the fra
     - Main Container
         - Main Component: The main component for rendering the webpage.
     - Navbar:
-        - Navbar: The main navigation bar component that adapts based on user authentication status.
+        - Navbar: The main Navigation bar component that adapts based on user authentication status.
         - NavLinks: Displays links based on user role (e.g., Borrow, Lend, My Account). For logged in, list "Tool", "Library / Borrow",  "List Item / Lend", "My Account", "Help". For logged out, list "Login", "Register".
         - NotificationIcon: An icon that shows notifications with a visual indicator for new activity.
     - Footer:
