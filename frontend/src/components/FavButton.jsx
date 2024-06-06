@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import FavIcon from './FavIcon';
-import '../styles/PhotoFavButton.scss';
+import '../styles/FavButton.scss';
 
-function PhotoFavButton(props) {
+function FavButton(props) {
   const [selected, setSelected] = useState(false);
   const handleClick = () => {
     if (props.photoId < 0) {
@@ -31,4 +31,4 @@ function PhotoFavButton(props) {
   );
 }
 
-export default PhotoFavButton;
+export default FavButton;

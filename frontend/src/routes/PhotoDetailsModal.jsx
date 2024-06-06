@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react';
 import '../styles/PhotoDetailsModal.scss'
 import closeSymbol from '../assets/closeSymbol.svg';
 import photos from 'mocks/photos';
-import PhotoFavButton from 'components/PhotoFavButton';
+import FavButton from 'components/FavButton';
 import FavBadge from 'components/FavBadge';
 import ToolList from 'components/ToolList';
 
@@ -47,7 +47,7 @@ const PhotoDetailsModal = (props) => {
       </div>
 
       <div className="photo-details-modal__header">
-        {/* <PhotoFavButton photoId={props.state.selectedPhoto.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
+        {/* <FavButton photoId={props.state.selectedPhoto.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
         <img className="photo-details-modal__image" src={props.state.selectedPhoto.picture} />
         <div className="photo-details-modal__photographer-details">
           <div className="photo-details-modal__photographer-profile" >{props.state.selectedPhoto.name}</div>
