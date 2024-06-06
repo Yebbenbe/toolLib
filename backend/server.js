@@ -1,3 +1,6 @@
+// load .env data into process.env
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const db = require('./db/db');
