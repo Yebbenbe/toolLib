@@ -12,12 +12,12 @@ const App = () => {
     onToolSelect,
     updateToFavToolIds,
     onCloseToolDetailsModal,
-    onClickTopic,
+    onClickOption,
   } = useApplicationData();
 
   return (
     < div className="App" >
-      < HomeRoute state={state} onClickTopic={onClickTopic} setSelectedTool={onToolSelect} setFavourite={updateToFavToolIds} />
+      < HomeRoute state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setFavourite={updateToFavToolIds} />
       < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setFavourite={updateToFavToolIds} />
     </div >
   )
