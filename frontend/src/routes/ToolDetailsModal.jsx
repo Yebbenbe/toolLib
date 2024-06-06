@@ -49,10 +49,10 @@ const ToolDetailsModal = (props) => {
       <div className="tool-details-modal__header">
         {/* <FavButton toolId={props.state.selectedTool.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
         <img className="tool-details-modal__image" src={props.state.selectedTool.picture} />
-        <div className="tool-details-modal__toolgrapher-details">
-          <div className="tool-details-modal__toolgrapher-profile" >{props.state.selectedTool.name}</div>
-          <div className="tool-details-modal__toolgrapher-location">{props.state.selectedTool.charge}, {props.state.selectedTool.deposit}</div>
-          <div className="tool-details-modal__toolgrapher-info">{props.state.selectedTool.description}</div>
+        <div className="tool-details-modal__tool-details">
+          <div className="tool-details-modal__tool-name" >{props.state.selectedTool.name}</div>
+          <div className="tool-details-modal__tool-money">{props.state.selectedTool.charge}, {props.state.selectedTool.deposit}</div>
+          <div className="tool-details-modal__tool-description">{props.state.selectedTool.description}</div>
         </div>
         {/* <div>Similar Tools</div>
         <div className='tool-details-modal__top-bar'>

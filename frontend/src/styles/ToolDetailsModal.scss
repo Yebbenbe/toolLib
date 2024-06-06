@@ -43,7 +43,7 @@
   align-items: center;
 }
 
-.tool-details-modal__toolgrapher-details {
+.tool-details-modal__tool-details {
   display: flex;
   font-size: 16px;
 }
@@ -58,11 +58,11 @@
   width: 100%;
 }
 
-.tool-details-modal__toolgrapher-location {
+.tool-details-modal__tool-money {
   color: #838383;
 }
 
-.tool-details-modal__toolgrapher-profile {
+.tool-details-modal__tool-name {
   object-fit: cover;
   border-radius: 100%;
   vertical-align: middle;
@@ -71,7 +71,7 @@
   height: 40px;
 }
 
-.tool-details-modal__toolgrapher-info {
+.tool-details-modal__tool-description {
   margin-top: 5px;
   font-weight: 700;
   font-size: 12px;
