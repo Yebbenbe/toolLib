@@ -2,76 +2,68 @@ CREATE DATABASE toollib_development;
 
 \c toollib_development
 
-CREATE TABLE Users (
-    UserID SERIAL PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    Address VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL UNIQUE,
-    Phone VARCHAR(20),
-    LendingDiameter INT, -- in kilometers, how far out they are willing to lend
-    Latitude FLOAT, -- for storing latitude of the address
-    Longitude FLOAT -- for storing longitude of the address
+CREATE TABLE "Users" (
+  "UserID" SERIAL PRIMARY KEY,
+  "Name" text NOT NULL,
+  "Address" text NOT NULL,
+  "Email" text UNIQUE NOT NULL, -- User email address
+  "Phone" varchar(10),
+  "LendingDiameter" int, -- In kilometers, how far out they are willing to lend
+  "Latitude" float, -- For storing latitude of the address
+  "Longitude" float -- For storing longitude of the address
+);
+
+CREATE TABLE "Tools" (
+  "ToolID" SERIAL PRIMARY KEY, -- Auto-incrementing primary key
+  "Name" varchar(255) NOT NULL,
+  "Picture" varchar(255), -- URL or file path to the image
+  "Description" text,
+  "Deposit" decimal(10,2), -- Deposit requested (to be returned to borrower)
+  -- "Charge" decimal(10,2) NULL, -- Fee amount (to be decided if implemented)
+  "DI4U" bool, -- Whether the tool is available for drop-in-for-use
+  "OwnerID" INT REFERENCES "Users" ("UserID") -- Foreign key referencing Users(UserID)
+  "LendingDiameter" INT 
+);
+
+CREATE TYPE "RequestStatus" AS ENUM ( -- Custom type for request status
+  'Pending',
+  'Approved',
+  'Borrowed',
+  'Returned',
+  'NotReturned'
+);
+
+CREATE TABLE "Requests" (  --For all borrow/lend transactions and history
+  "Requests" SERIAL PRIMARY KEY, -- Auto-incrementing
+  "OwnerID" INT REFERENCES "Users" ("UserID"),
+  "BorrowerID" INT REFERENCES "Users" ("UserID"),
+  "ToolID" INT REFERENCES "Tools" ("ToolID"),
+  "Status" "RequestStatus", -- Status of the lending request
+  "LenderRating" bool NULL, -- Whether lender approves the transaction, basically a thumbs up/down
+  "BorrowerRating" bool NULL, -- Whether borrower approves the transaction
+  "BorrowerFeedback" text NULL, -- Any text notes to leave
+  "LenderFeedback" text NULL, -- Any text notes to leave
+  "RequestDate" timestamp DEFAULT (now()), -- Date and time when the request was made, auto-date when new row inserted
+  "ApproveDate" timestamp NULL, -- Date and time when the request was approved
+  "BorrowDate" timestamp NULL, -- Date and time when the tool was borrowed
+  "ReturnDate" timestamp NULL, -- Date and time when the tool was returned
 );
 
 
-CREATE TABLE Tools (
-    ToolID SERIAL PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
-    Picture VARCHAR(255), -- URL or file path to the image
-    Description TEXT,
-    Deposit DECIMAL(10, 2), -- deposit requested (to be returned to borrower)
-    Charge DECIMAL(10, 2), -- fee amount (to be decided if implemented)
-    Teachable BOOLEAN, -- whether lender is free to teach borrower how to use the tool
-    DI4U BOOLEAN,  -- whether the tool is available for drop-in-for-use
-    OwnerID INT,
-    FOREIGN KEY (OwnerID) REFERENCES Users(UserID)
-);
-
-
-CREATE TABLE History (
-    HistoryID SERIAL PRIMARY KEY,
-    LenderID INT,
-    BorrowerID INT,
-    ToolID INT,
-    LenderApproval BOOLEAN,  -- whether lender approves the transaction, basically a thumbs up/down
-    BorrowerApproval BOOLEAN, -- whether borrower approves the transaction
-    BorrowerFeedback TEXT,  -- any text notes to leave
-    LenderFeedback TEXT,  -- any text notes to leave
-    FOREIGN KEY (LenderID) REFERENCES Users(UserID),
-    FOREIGN KEY (BorrowerID) REFERENCES Users(UserID),
-    FOREIGN KEY (ToolID) REFERENCES Tools(ToolID),
-    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE User_Tool (  -- bridge table for borrower<>lender interaction
-    UserID INT,
-    ToolID INT,
-    PRIMARY KEY (UserID, ToolID),
-    FOREIGN KEY (UserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ToolID) REFERENCES Tools(ToolID)
-);
-
--- Insert sample data into the Users table
-INSERT INTO Users (Name, Address, Email, Phone, LendingDiameter, Latitude, Longitude)
+-- Sample data for Users table
+INSERT INTO Users ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude")
 VALUES
 ('John Doe', '1234 Maple St, Anytown, AN', 'john.doe@example.com', '555-1234', 10, 40.7128, -74.0060),
 ('Jane Smith', '5678 Oak St, Othertown, OT', 'jane.smith@example.com', '555-5678', 5, 34.0522, -118.2437);
 
--- Insert sample data into the Tools table
-INSERT INTO Tools (Name, Picture, Description, Deposit, Charge, Teachable, DI4U, OwnerID)
+-- Sample data for Tools table
+INSERT INTO Tools ("Name", "Picture", "Description", "Deposit", "DI4U", "OwnerID", "LendingDiameter")
 VALUES
-('Hammer', 'http://localhost:3001/public/images/hammer.jpg', 'A sturdy hammer suitable for all types of carpentry work.', 20.00, 2.00, TRUE, FALSE, 1),
-('Screwdriver', 'http://localhost:3001/public/images/screwdriver.jpg', 'A flat-head screwdriver, ideal for basic home repairs.', 15.00, 1.50, FALSE, TRUE, 2);
+('Hammer', 'http://localhost:3001/public/images/hammer.jpg', 'A sturdy hammer suitable for all types of carpentry work.', 20.00, FALSE, 1, 10),
+('Screwdriver', 'http://localhost:3001/public/images/screwdriver.jpg', 'A flat-head screwdriver, ideal for basic home repairs.', 15.00, TRUE, 2, 5);
 
--- Insert sample data into the History table
-INSERT INTO History (LenderID, BorrowerID, ToolID, LenderApproval, BorrowerApproval, BorrowerFeedback, LenderFeedback)
+-- Sample data for Requests table
+INSERT INTO Requests ("OwnerID", "BorrowerID", "ToolID", "Status", "RequestDate")
 VALUES
-(1, 2, 1, TRUE, TRUE, 'Great condition, worked perfectly.', 'Prompt return, excellent borrower.'),
-(2, 1, 2, TRUE, TRUE, 'Useful tool, easy to handle.', 'Took good care of the tool.');
-
--- Insert sample data into the User_Tool table
-INSERT INTO User_Tool (UserID, ToolID)
-VALUES
-(1, 1),
-(2, 2);
+(1, 2, 1, 'Pending', CURRENT_TIMESTAMP),
+(2, 1, 2, 'Approved', CURRENT_TIMESTAMP);
