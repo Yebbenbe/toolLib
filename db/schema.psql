@@ -7,7 +7,7 @@ CREATE TYPE "RequestStatus" AS ENUM ( -- Custom type for request status
 );
 
 CREATE TABLE "Users" (
-  "UserID" int UNIQUE PRIMARY KEY,
+  "UserID" SERIAL PRIMARY KEY,
   "Name" text NOT NULL,
   "Address" text NOT NULL,
   "Email" text UNIQUE NOT NULL, -- User email address
@@ -18,22 +18,21 @@ CREATE TABLE "Users" (
 );
 
 CREATE TABLE "Tools" (
-  "ToolID" int UNIQUE PRIMARY KEY, -- Auto-incrementing primary key
+  "ToolID" SERIAL PRIMARY KEY, -- Auto-incrementing primary key
   "Name" varchar(255) NOT NULL,
   "Picture" varchar(255), -- URL or file path to the image
   "Description" text,
   "Deposit" decimal(10,2), -- Deposit requested (to be returned to borrower)
   -- "Charge" decimal(10,2) NULL, -- Fee amount (to be decided if implemented)
   "DI4U" bool, -- Whether the tool is available for drop-in-for-use
-  "OwnerID" int, -- Foreign key referencing Users(UserID)
-  FOREIGN KEY ("OwnerID") REFERENCES "Users" ("UserID")
+  "OwnerID" INT REFERENCES "Users" ("UserID") -- Foreign key referencing Users(UserID)
 );
 
 CREATE TABLE "Requests" (  --For all borrow/lend transactions and history
-  "TransactionID" int UNIQUE PRIMARY KEY, -- Auto-incrementing
-  "OwnerID" int, -- Foreign key referencing Users(UserID)
-  "BorrowerID" int, -- Foreign key referencing Users(UserID)
-  "ToolID" int, -- Foreign key referencing Tools(ToolID)
+  "Requests" SERIAL PRIMARY KEY, -- Auto-incrementing
+  "OwnerID" INT REFERENCES "Users" ("UserID"),
+  "BorrowerID" INT REFERENCES "Users" ("UserID"),
+  "ToolID" INT REFERENCES "Tools" ("ToolID"),
   "Status" "RequestStatus", -- Status of the lending request
   "LenderRating" bool NULL, -- Whether lender approves the transaction, basically a thumbs up/down
   "BorrowerRating" bool NULL, -- Whether borrower approves the transaction
@@ -43,7 +42,9 @@ CREATE TABLE "Requests" (  --For all borrow/lend transactions and history
   "ApproveDate" timestamp NULL, -- Date and time when the request was approved
   "BorrowDate" timestamp NULL, -- Date and time when the tool was borrowed
   "ReturnDate" timestamp NULL, -- Date and time when the tool was returned
-  FOREIGN KEY ("OwnerID") REFERENCES "Users" ("UserID"),
-  FOREIGN KEY ("BorrowerID") REFERENCES "Users" ("UserID"),
-  FOREIGN KEY ("ToolID") REFERENCES "Tools" ("ToolID"),
+);
+
+CREATE TABLE "UsersRequests" (
+"UserID" INT REFERENCES "Users" ("UserID"),
+"RequestID" INT REFERENCES "Requests" ("RequestID")
 );
