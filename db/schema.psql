@@ -1,4 +1,4 @@
-CREATE TYPE "RequestStatus" AS ENUM (
+CREATE TYPE "RequestStatus" AS ENUM ( -- Custom type for request status
   'Pending',
   'Approved',
   'Borrowed',
@@ -29,7 +29,7 @@ CREATE TABLE "Tools" (
   FOREIGN KEY ("OwnerID") REFERENCES "Users" ("UserID")
 );
 
-CREATE TABLE "Requests" (
+CREATE TABLE "Requests" (  --For all borrow/lend transactions and history
   "TransactionID" int UNIQUE PRIMARY KEY, -- Auto-incrementing
   "OwnerID" int, -- Foreign key referencing Users(UserID)
   "BorrowerID" int, -- Foreign key referencing Users(UserID)
@@ -39,12 +39,11 @@ CREATE TABLE "Requests" (
   "BorrowerRating" bool NULL, -- Whether borrower approves the transaction
   "BorrowerFeedback" text NULL, -- Any text notes to leave
   "LenderFeedback" text NULL, -- Any text notes to leave
-  "RequestDate" timestamp DEFAULT (now()), -- Date and time when the request was made
+  "RequestDate" timestamp DEFAULT (now()), -- Date and time when the request was made, auto-date when new row inserted
   "ApproveDate" timestamp NULL, -- Date and time when the request was approved
   "BorrowDate" timestamp NULL, -- Date and time when the tool was borrowed
   "ReturnDate" timestamp NULL, -- Date and time when the tool was returned
   FOREIGN KEY ("OwnerID") REFERENCES "Users" ("UserID"),
   FOREIGN KEY ("BorrowerID") REFERENCES "Users" ("UserID"),
   FOREIGN KEY ("ToolID") REFERENCES "Tools" ("ToolID"),
-  COMMENT ON TABLE "Requests" IS 'For all borrow/lend transactions and history'
 );
