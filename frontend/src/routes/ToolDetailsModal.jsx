@@ -47,7 +47,7 @@ const ToolDetailsModal = (props) => {
       </div>
 
       <div className="tool-details-modal__header">
-        {/* <BorrowButton toolId={props.state.selectedTool.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
+        <BorrowButton toolId={props.state.selectedTool.id} borrows={props.state.borrows} setBorrow={props.setBorrow} />
         <img className="tool-details-modal__image" src={props.state.selectedTool.picture} />
         <div className="tool-details-modal__tool-details">
           <div className="tool-details-modal__tool-name" >{props.state.selectedTool.name}</div>
@@ -56,7 +56,7 @@ const ToolDetailsModal = (props) => {
         </div>
         {/* <div>Similar Tools</div>
         <div className='tool-details-modal__top-bar'>
-          <ToolList tools={similarToolsList} favourites={props.favourites} setFavourite={props.setFavourite} />
+          <ToolList tools={similarToolsList} borrows={props.borrows} setBorrow={props.setBorrow} />
         </div> */}
       </div>
     </div>

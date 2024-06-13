@@ -10,15 +10,15 @@ const App = () => {
   const {
     state,
     onToolSelect,
-    updateToFavToolIds,
+    updateToBorrowToolIds,
     onCloseToolDetailsModal,
     onClickOption,
   } = useApplicationData();
 
   return (
     < div className="App" >
-      < HomeRoute state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setFavourite={updateToFavToolIds} />
-      < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setFavourite={updateToFavToolIds} />
+      < HomeRoute state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
+      < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setBorrow={updateToBorrowToolIds} />
     </div >
   )
 }

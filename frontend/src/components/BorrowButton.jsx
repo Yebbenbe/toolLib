@@ -9,19 +9,19 @@ function BorrowButton(props) {
     if (props.toolId < 0) {
       return;
     }
-    props.setFavourite(props.toolId);
+    props.setBorrow(props.toolId);
   }
 
   useEffect(() => {
-    if (props.favourites != undefined) {
-      if (props.favourites.indexOf(props.toolId) >= 0) {
+    if (props.borrows != undefined) {
+      if (props.borrows.indexOf(props.toolId) >= 0) {
         console.log("get true")
         setSelected(true);
       } else {
         setSelected(false);
       }
     }
-  }, [props.favourites]);
+  }, [props.borrows]);
   return (
     <div className="tool-list__borrow-icon" onClick={handleClick}>
       <div className="tool-list__borrow-icon-svg">

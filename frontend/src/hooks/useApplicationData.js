@@ -20,21 +20,21 @@ const useApplicationData = () => {
           "profile": null
         }
     },
-      favToolIds: [],
+      borrowToolIds: [],
       isToolDetailsModalOpen: false,
     });
     
     function reducer(state, action) {
       switch (action.type) {
-        case ACTIONS.FAV_TOOL_ADDED:
+        case ACTIONS.BORROW_TOOL_ADDED:
           return ({
             ...state,
-            favToolIds: [...state.favToolIds, action.toolId]
+            borrowToolIds: [...state.borrowToolIds, action.toolId]
           });
-        case ACTIONS.FAV_TOOL_REMOVED:
+        case ACTIONS.BORROW_TOOL_REMOVED:
           return ({
             ...state,
-            favToolIds: state.favToolIds.filter(id => id !== action.toolId)
+            borrowToolIds: state.borrowToolIds.filter(id => id !== action.toolId)
           });
         case ACTIONS.SET_TOOL_DATA:
             return ({ ...state, 
@@ -79,12 +79,12 @@ const useApplicationData = () => {
       }
     };
 
-    const updateToFavToolIds = toolId => {
+    const updateToBorrowToolIds = toolId => {
       console.log(toolId)
-      if(state.favToolIds.includes(toolId)){
-        dispatch({type: ACTIONS.FAV_TOOL_REMOVED, toolId: toolId});
+      if(state.borrowToolIds.includes(toolId)){
+        dispatch({type: ACTIONS.BORROW_TOOL_REMOVED, toolId: toolId});
       }else{
-        dispatch({type: ACTIONS.FAV_TOOL_ADDED, toolId: toolId});
+        dispatch({type: ACTIONS.BORROW_TOOL_ADDED, toolId: toolId});
       }
     };
 
@@ -107,15 +107,15 @@ const useApplicationData = () => {
     return {
       state,
       onToolSelect,
-      updateToFavToolIds,
+      updateToBorrowToolIds,
       onCloseToolDetailsModal,
       onClickOption,
     };
 }
 
 export const ACTIONS = {
-  FAV_TOOL_ADDED: 'FAV_TOOL_ADDED',
-  FAV_TOOL_REMOVED: 'FAV_TOOL_REMOVED',
+  BORROW_TOOL_ADDED: 'BORROW_TOOL_ADDED',
+  BORROW_TOOL_REMOVED: 'BORROW_TOOL_REMOVED',
   SET_TOOL_DATA: 'SET_TOOL_DATA',
   SELECT_TOOL: 'SELECT_TOOL',
   DISPLAY_TOOL_DETAILS: 'DISPLAY_TOOL_DETAILS'

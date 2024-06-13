@@ -11,7 +11,7 @@ const HomeRoute = (props) => {
   return (
     <div className="home-route">
       < Navigation onClickOption={props.onClickOption} />
-      < ToolList tools={props.state.tools} setSelectedTool={props.setSelectedTool} favourites={props.state.favToolIds} setFavourite={props.setFavourite} />
+      < ToolList tools={props.state.tools} setSelectedTool={props.setSelectedTool} borrows={props.state.borrowToolIds} setBorrow={props.setBorrow} />
     </div >
   );
 };
