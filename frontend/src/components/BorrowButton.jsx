@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import FavIcon from './FavIcon';
-import '../styles/FavButton.scss';
+import '../styles/BorrowButton.scss';
 
-function FavButton(props) {
+function BorrowButton(props) {
   const [selected, setSelected] = useState(false);
   const handleClick = () => {
     if (props.toolId < 0) {
@@ -23,12 +23,12 @@ function FavButton(props) {
     }
   }, [props.favourites]);
   return (
-    <div className="tool-list__fav-icon" onClick={handleClick}>
-      <div className="tool-list__fav-icon-svg">
+    <div className="tool-list__borrow-icon" onClick={handleClick}>
+      <div className="tool-list__borrow-icon-svg">
         <FavIcon selected={selected} />
       </div>
     </div>
   );
 }
 
-export default FavButton;
+export default BorrowButton;

@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react';
 import '../styles/ToolDetailsModal.scss'
 import closeSymbol from '../assets/closeSymbol.svg';
 import tools from 'mocks/tools';
-import FavButton from 'components/FavButton';
+import BorrowButton from 'components/BorrowButton';
 import FavBadge from 'components/FavBadge';
 import ToolList from 'components/ToolList';
 
@@ -47,7 +47,7 @@ const ToolDetailsModal = (props) => {
       </div>
 
       <div className="tool-details-modal__header">
-        {/* <FavButton toolId={props.state.selectedTool.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
+        {/* <BorrowButton toolId={props.state.selectedTool.id} favourites={props.state.favourites} setFavourite={props.setFavourite} /> */}
         <img className="tool-details-modal__image" src={props.state.selectedTool.picture} />
         <div className="tool-details-modal__tool-details">
           <div className="tool-details-modal__tool-name" >{props.state.selectedTool.name}</div>
