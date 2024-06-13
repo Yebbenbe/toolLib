@@ -4,7 +4,7 @@ import '../styles/ToolDetailsModal.scss'
 import closeSymbol from '../assets/closeSymbol.svg';
 import tools from 'mocks/tools';
 import BorrowButton from 'components/BorrowButton';
-import FavBadge from 'components/FavBadge';
+import BorrowBadge from 'components/BorrowBadge';
 import ToolList from 'components/ToolList';
 
 //Initialize value to avoid render fail in the similar tools

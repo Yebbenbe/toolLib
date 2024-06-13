@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
-import FavIcon from './FavIcon';
+import BurrowIcon from './BurrowIcon';
 import '../styles/BorrowButton.scss';
 
 function BorrowButton(props) {
@@ -25,7 +25,7 @@ function BorrowButton(props) {
   return (
     <div className="tool-list__borrow-icon" onClick={handleClick}>
       <div className="tool-list__borrow-icon-svg">
-        <FavIcon selected={selected} />
+        <BurrowIcon selected={selected} />
       </div>
     </div>
   );
