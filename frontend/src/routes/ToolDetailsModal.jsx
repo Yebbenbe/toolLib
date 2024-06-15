@@ -29,7 +29,7 @@ let similarToolsList = [{
 const ToolDetailsModal = (props) => {
   useMemo(() => {
     if (props.state.selectedTool != undefined) {
-      if (props.state.selectedTool.id > 0) {
+      if (props.state.selectedTool.toolid > 0) {
         similarToolsList = [];
         for (const index in props.state.selectedTool.similar_tools) {
           similarToolsList.push(props.state.selectedTool.similar_tools[index]);
@@ -47,12 +47,12 @@ const ToolDetailsModal = (props) => {
       </div>
 
       <div className="tool-details-modal__header">
-        <BorrowButton toolId={props.state.selectedTool.id} borrows={props.state.borrows} setBorrow={props.setBorrow} />
         <img className="tool-details-modal__image" src={props.state.selectedTool.picture} />
         <div className="tool-details-modal__tool-details">
           <div className="tool-details-modal__tool-name" >{props.state.selectedTool.name}</div>
-          <div className="tool-details-modal__tool-money">{props.state.selectedTool.charge}, {props.state.selectedTool.deposit}</div>
+          <div className="tool-details-modal__tool-money">${props.state.selectedTool.charge}, ${props.state.selectedTool.deposit}</div>
           <div className="tool-details-modal__tool-description">{props.state.selectedTool.description}</div>
+          {/* <BorrowButton toolId={props.state.selectedTool.toolid} borrows={props.state.borrows} setBorrow={props.setBorrow} /> */}
         </div>
         {/* <div>Similar Tools</div>
         <div className='tool-details-modal__top-bar'>

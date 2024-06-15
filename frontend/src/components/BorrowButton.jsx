@@ -6,6 +6,7 @@ import '../styles/BorrowButton.scss';
 function BorrowButton(props) {
   const [selected, setSelected] = useState(false);
   const handleClick = () => {
+    console.log(props.toolId);
     if (props.toolId < 0) {
       return;
     }
@@ -24,7 +25,7 @@ function BorrowButton(props) {
   }, [props.borrows]);
   return (
     <div className="tool-list__borrow-icon" onClick={handleClick}>
-      <div className="tool-list__borrow-icon-svg">
+      <div className="tool-list__borrow-icon-button">
         <BurrowIcon selected={selected} />
       </div>
     </div>
