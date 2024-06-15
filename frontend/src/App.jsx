@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BorrowPage from "routes/BorrowPage";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import BorrowPage from 'routes/BorrowPage';
 import LendPage from 'routes/LendPage';
+import Login from 'routes/Login';
 
-export default function App() {
+const App = () => {
+  const [auth, setAuth] = useState(null); // { username: 'user' } when authenticated
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BorrowPage />} />
-        <Route path="/borrow" element={<BorrowPage />} />
-        <Route path="/lend" element={<LendPage />} />
+        <Route path="/" element={<ProtectedRoute auth={auth} component={<BorrowPage />} />} />
+        <Route path="/borrow" element={<ProtectedRoute auth={auth} component={<BorrowPage />} />} />
+        <Route path="/lend" element={<ProtectedRoute auth={auth} component={<LendPage />} />} />
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+const ProtectedRoute = ({ auth, component }) => {
+  return auth ? component : <Navigate to="/login" />;
+};
+
+export default App;
