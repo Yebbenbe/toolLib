@@ -1,26 +1,18 @@
-// frontend/src/App.jsx
 import React, { useState } from 'react';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BorrowPage from "routes/BorrowPage";
 
-import './App.scss';
-import HomeRoute from 'routes/HomeRoute';
-import ToolDetailsModal from 'routes/ToolDetailsModal';
-import useApplicationData from 'hooks/useApplicationData';
-
-const App = () => {
-  const {
-    state,
-    onToolSelect,
-    updateToBorrowToolIds,
-    onCloseToolDetailsModal,
-    onClickOption,
-  } = useApplicationData();
-
+export default function App() {
   return (
-    < div className="App" >
-      < HomeRoute state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
-      < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setBorrow={updateToBorrowToolIds} />
-    </div >
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<BorrowPage />} />
+        <Route path="/borrow" element={<BorrowPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);

@@ -1,12 +1,12 @@
 import React from 'react';
-import BurrowIcon from './BurrowIcon';
+import BorrowIcon from './BorrowIcon';
 
 import '../styles/BorrowBadge.scss';
 
 const BorrowBadge = ({ isFavToolExist }) => {
   return (
     <div className='borrow-badge'>
-      <BurrowIcon selected={true} displayAlert={!!isFavToolExist} />
+      <BorrowIcon selected={true} displayAlert={!!isFavToolExist} />
     </div>
   )
 };

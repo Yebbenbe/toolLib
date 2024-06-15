@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BurrowIcon = ({ displayAlert, selected }) => {
+const BorrowIcon = ({ displayAlert, selected }) => {
   return (
     <button style={{ backgroundColor: selected ? "#04AA6D" : "#EEEEEE" }}>{selected ? "Borrowed" : "Borrow"}</button>
     // <svg width="20" height="17" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,4 +13,4 @@ const BurrowIcon = ({ displayAlert, selected }) => {
   );
 };
 
-export default BurrowIcon;
+export default BorrowIcon;
