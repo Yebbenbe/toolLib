@@ -12,9 +12,9 @@ const ToolListItem = (props) => {
     <div className="tool-list__item" >
       <img className="tool-list__image" onClick={handleClick} src={props.toolDetails.picture} />
       <div className="tool-list__user-details">
-        <BorrowButton toolId={props.toolDetails.toolid} borrows={props.borrows} setBorrow={props.setBorrow} />
         <div className="tool-list__user-name">{props.toolDetails.name}</div>
-        <div className="tool-list__user-money">${props.toolDetails.charge}, ${props.toolDetails.deposit}</div>
+        <div className="tool-list__user-money">Charge ${props.toolDetails.charge}, Deposit ${props.toolDetails.deposit}</div>
+        <BorrowButton toolId={props.toolDetails.toolid} borrows={props.borrows} setBorrow={props.setBorrow} />
       </div>
 
     </div>

@@ -38,6 +38,7 @@ const ToolDetailsModal = (props) => {
     }
   }, [props.state.selectedTool]);
 
+  console.log(props.state.selectedTool)
   return (
     <div className="tool-details-modal" hidden={!props.state.isToolDetailsModalOpen}>
       <div className='tool-details-modal__top-bar'>
@@ -50,7 +51,7 @@ const ToolDetailsModal = (props) => {
         <img className="tool-details-modal__image" src={props.state.selectedTool.picture} />
         <div className="tool-details-modal__tool-details">
           <div className="tool-details-modal__tool-name" >{props.state.selectedTool.name}</div>
-          <div className="tool-details-modal__tool-money">${props.state.selectedTool.charge}, ${props.state.selectedTool.deposit}</div>
+          <div className="tool-details-modal__tool-money">Charge ${props.state.selectedTool.charge}, Deposit ${props.state.selectedTool.deposit}</div>
           <div className="tool-details-modal__tool-description">{props.state.selectedTool.description}</div>
           {/* <BorrowButton toolId={props.state.selectedTool.toolid} borrows={props.state.borrows} setBorrow={props.setBorrow} /> */}
         </div>

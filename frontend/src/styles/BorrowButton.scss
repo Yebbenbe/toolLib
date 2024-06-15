@@ -1,18 +1,14 @@
 .tool-list__borrow-icon {
   position: relative;
-  top: 8px;
-  right: -8px;
   cursor: pointer;
-  margin-bottom: -30px;
   border-width: 0.1px;
-  width: 32px;
+  width: 60px;
   height: 32px;
   text-align: center;
   border-radius: 100%;
 }
 
 .tool-list__borrow-icon-button {
-  padding: 7px;
   top: 2px;
 
   Button {
