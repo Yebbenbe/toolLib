@@ -7,7 +7,7 @@ import BorrowHome from 'routes/BorrowHome';
 import ToolDetailsModal from 'routes/ToolDetailsModal';
 import useApplicationData from 'hooks/useApplicationData';
 
-const BorrowPage = () => {
+const LendPage = () => {
     const {
         state,
         onToolSelect,
@@ -17,11 +17,12 @@ const BorrowPage = () => {
     } = useApplicationData();
 
     return (
-        < div className="BorrowPage" >
+        < div className="LendPage" >
+            <p>test lend</p>
             < BorrowHome state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
             < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setBorrow={updateToBorrowToolIds} />
         </div >
     )
 }
 
-export default BorrowPage
+export default LendPage

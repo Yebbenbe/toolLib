@@ -1,10 +1,13 @@
 import React from "react";
-
+import { useNavigate } from 'react-router-dom';
 import "../styles/OptionListItem.scss";
 
 const OptionListItem = (props) => {
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    props.onClickOption(props.optionDetails.id)
+    const routes = ["/", "/borrow", "/lend"];
+    navigate(routes[props.optionDetails.id]);
   }
 
   return (

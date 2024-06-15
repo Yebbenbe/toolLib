@@ -1,5 +1,4 @@
 import React, {useEffect, useReducer} from "react";
-
 const useApplicationData = () => {
     const [state, dispatch] = useReducer(reducer, {
       tools: [],
