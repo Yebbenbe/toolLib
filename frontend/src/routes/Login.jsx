@@ -12,6 +12,7 @@ const Login = ({ setAuth }) => {
         // Here you would typically validate the username and password
         if (username && password) {
             setAuth({ username });
+            console.log("setAuth: " + username);
             navigate('/'); // Redirect to home page after login
         }
     };

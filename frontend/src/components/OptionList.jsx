@@ -12,6 +12,10 @@ const optionList = [
     id: "2",
     name: "Lend",
   },
+  {
+    id: "3",
+    name: "Login",
+  },
 ];
 
 const OptionList = (props) => {

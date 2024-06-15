@@ -9,7 +9,7 @@ import CreateToolForm from 'components/CreateToolForm';
 const LendHome = (props) => {
   return (
     <div className="lend-home">
-      < Navigation onClickOption={props.onClickOption} />
+      < Navigation onClickOption={props.onClickOption} auth={props.auth.auth} />
       <CreateToolForm />
     </div >
   );
