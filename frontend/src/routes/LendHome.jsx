@@ -10,7 +10,7 @@ const LendHome = (props) => {
   return (
     <div className="lend-home">
       < Navigation onClickOption={props.onClickOption} auth={props.auth.auth} />
-      <CreateToolForm />
+      < CreateToolForm auth={props.auth.auth} />
     </div >
   );
 };

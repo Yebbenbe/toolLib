@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/CreateToolForm.scss';
 
-const CreateToolForm = () => {
+const CreateToolForm = (props) => {
     const [formData, setFormData] = useState({
         name: '',
         picture: '',
@@ -84,7 +84,7 @@ const CreateToolForm = () => {
             <div className='create-tool__ownerID'>
                 <label>
                     Owner ID:
-                    <input type="number" name="ownerId" value={formData.ownerId} onChange={handleChange} />
+                    <input type="number" name="ownerId" value={props.auth.username} onChange={handleChange} readOnly />
                 </label>
             </div>
             <button className='create-tool__submit' type="submit">Submit</button>
