@@ -11,7 +11,6 @@ CREATE TABLE "Users" (
   "LendingDiameter" int, -- In kilometers, how far out they are willing to lend
   "Latitude" float, -- For storing latitude of the address
   "Longitude" float -- For storing longitude of the address
-  "PasswordHash" TEXT NOT NULL  -- for storing password hash
 );
 
 CREATE TABLE "Tools" (
@@ -52,10 +51,10 @@ CREATE TABLE "Requests" (  --For all borrow/lend transactions and history
 
 
 -- Sample data for Users table
-INSERT INTO Users ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude", "PasswordHash")
+INSERT INTO Users ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude")
 VALUES
-('John Doe', '1234 Maple St, Anytown, AN', 'john.doe@example.com', '555-1234', 10, 40.7128, -74.0060, 'loveGettingCrushed'),
-('Jane Smith', '5678 Oak St, Othertown, OT', 'jane.smith@example.com', '555-5678', 5, 34.0522, -118.2437, 'bigFurryWolfMen');
+('John Doe', '1234 Maple St, Anytown, AN', 'john.doe@example.com', '555-1234', 10, 40.7128, -74.0060),
+('Jane Smith', '5678 Oak St, Othertown, OT', 'jane.smith@example.com', '555-5678', 5, 34.0522, -118.2437);
 
 -- Sample data for Tools table
 INSERT INTO Tools ("Name", "Picture", "Description", "Deposit", "DI4U", "OwnerID", "LendingDiameter")
