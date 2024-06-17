@@ -1,0 +1,23 @@
+.tool-list__borrow-icon {
+  position: relative;
+  cursor: pointer;
+  border-width: 0.1px;
+  width: 60px;
+  height: 32px;
+  text-align: center;
+  border-radius: 100%;
+}
+
+.tool-list__borrow-icon-button {
+  top: 2px;
+
+  Button {
+    border: 2px solid #04AA6D;
+    border-radius: 45%;
+    transition-duration: 0.4s;
+  }
+
+  Button:hover {
+    color: rgb(67, 37, 240);
+  }
+}

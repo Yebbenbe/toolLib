@@ -1,26 +1,33 @@
-// frontend/src/App.jsx
 import React, { useState } from 'react';
-
-import './App.scss';
-import HomeRoute from 'routes/HomeRoute';
-import ToolDetailsModal from 'routes/ToolDetailsModal';
-import useApplicationData from 'hooks/useApplicationData';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import BorrowPage from 'routes/BorrowPage';
+import LendPage from 'routes/LendPage';
+import Login from 'routes/Login';
 
 const App = () => {
-  const {
-    state,
-    onToolSelect,
-    updateToFavToolIds,
-    onCloseToolDetailsModal,
-    onClickOption,
-  } = useApplicationData();
-
+  const [auth, setAuth] = useState(null); // { username: 'user' } when authenticated
   return (
-    < div className="App" >
-      < HomeRoute state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setFavourite={updateToFavToolIds} />
-      < ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setFavourite={updateToFavToolIds} />
-    </div >
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ProtectedRoute auth={auth} component={<BorrowPage auth={auth} />} />} />
+        <Route path="/borrow" element={<ProtectedRoute auth={auth} component={<BorrowPage auth={auth} />} />} />
+        <Route path="/lend" element={<ProtectedRoute auth={auth} component={<LendPage auth={auth} />} />} />
+        <Route path="/login" element={<Login setAuth={setAuth} />} />
+      </Routes>
+    </BrowserRouter>
+  );
 
-export default App
+  function handleOptionClick(option) {
+    console.log('Option clicked:', option);
+  }
+};
+
+const ProtectedRoute = ({ auth, component }) => {
+  return auth ? component : <Navigate to="/login" />;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+export default App;
