@@ -62,7 +62,7 @@ app.get('/test/db', (req, res) => {
 
 // Route to get tools available to a user based on location. The main grid page
 app.get('/tools', (req, res) => {
-  const userId = req.session.userId; // Retrieve UserID from session
+  const userId = req.session.UserId; // Retrieve UserID from session
 
   if (!userId) {
     return res.status(401).json({ error: 'User not authenticated' });
@@ -83,16 +83,16 @@ app.get('/tools', (req, res) => {
   });
 });
 
-// Combined route to fetch MY user details and tools
+// Combined route to fetch user details and tools
 app.get('/users/:userID/details', async (req, res) => {
-  const userId = req.session.userId; // Retrieve UserID from session
+  const userId = req.params.userID; // Retrieve UserID from URL
 
   if (!userId) {
     return res.status(401).json({ error: 'User not authenticated' });
   }
   try {
     // Fetch user details including Name and Lend Radius
-    const userDetailsQuery = 'SELECT Name, LendingDiameter FROM Users WHERE UserID = ?';
+    const userDetailsQuery = 'SELECT Name, LendingDiameter FROM Users WHERE UserID = $1';
     const userResult = await db.query(userDetailsQuery, [userId]);
     const user = userResult.rows[0];
 
@@ -101,7 +101,7 @@ app.get('/users/:userID/details', async (req, res) => {
     }
 
     // Fetch tools listed by the user
-    const toolsQuery = 'SELECT * FROM Tools WHERE OwnerID = ?';
+    const toolsQuery = 'SELECT * FROM Tools WHERE OwnerID = $1';
     const toolsResult = await db.query(toolsQuery, [userId]);
     const tools = toolsResult.rows;
 
@@ -114,21 +114,19 @@ app.get('/users/:userID/details', async (req, res) => {
 
 // Route to get all tools for a given user aka Tools i'm lending
 app.get('/:userId/tools', (req, res) => {
-  const userId = req.session.userId; // Retrieve UserID from session
+  const userId =  req.params.userID; // Retrieve UserID from URL
 
-  if (!userId) {
-    return res.status(401).json({ error: 'User not authenticated' });
-  }
-  db.query('SELECT * FROM Tools WHERE OwnerID = ?', [userId], (err, result) => {
+  const toolsQuery = 'SELECT * FROM Tools WHERE OwnerID = $1';
+  db.query(toolsQuery, [userId], (err, result) => {
     if (err) {
       console.error('Error grabbing user tools:', err);
       return res.status(500).json({ error: 'An error occurred while grabbing user tools' });
     }
-    res.status(200).json({ tools: result });
+    res.status(200).json({ tools: result.rows }); // Assuming `result` is an object with a `rows` property
   });
 });
 
-// Route to get a specific tool, and it's associated Requests
+// Route to get a specific tool, and its associated Requests
 app.get('/tool/:toolId', async (req, res) => {
   const toolId = req.params.toolId;
 
@@ -138,7 +136,7 @@ app.get('/tool/:toolId', async (req, res) => {
       SELECT Tools.*, Requests.*
       FROM Tools
       LEFT JOIN Requests ON Tools.ToolID = Requests.ToolID
-      WHERE Tools.ToolID = ?
+      WHERE Tools.ToolID = $1
     `;
 
     const { rows } = await db.query(query, [toolId]);
@@ -150,13 +148,11 @@ app.get('/tool/:toolId', async (req, res) => {
       // Example: Name, Description, OwnerID, etc.
     };
 
-    // Filter requests associated with the tool
+    // get requests associated with the tool
     const requests = rows
       .filter(row => row.RequestID !== null) // Assuming RequestID is non-null for requests
       .map(row => ({
         RequestID: row.RequestID,
-        // Include other fields from Requests table as needed
-        // Example: BorrowerID, Status, DateCreated, etc.
       }));
 
     res.status(200).json({ tool: toolDetails, requests });
@@ -165,6 +161,7 @@ app.get('/tool/:toolId', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching tool details and requests' });
   }
 });
+
 
 
 // Route to get all requests for a user (borrower or lender)
