@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // read environment variables (.env)
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 // database configuration
 const pool = new Pool({

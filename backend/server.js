@@ -1,5 +1,5 @@
 // load .env data into process.env
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
 const path = require('path');
@@ -19,7 +19,6 @@ app.use(cookieParser());
 app.use(cors());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-//session stuff
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
