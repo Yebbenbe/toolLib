@@ -114,7 +114,11 @@ app.get('/users/:userID/details', async (req, res) => {
 
 // Route to get all tools for a given user aka Tools i'm lending
 app.get('/:userId/tools', (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.session.userId; // Retrieve UserID from session
+
+  if (!userId) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
   db.query('SELECT * FROM Tools WHERE OwnerID = ?', [userId], (err, result) => {
     if (err) {
       console.error('Error grabbing user tools:', err);
