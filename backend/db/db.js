@@ -1,8 +1,10 @@
+// This initializes the database connection, and runs the schema.sql file to create the database schema.
+
 const { Pool } = require('pg');
 const fs = require('fs');
 const path = require('path');
 
-// read environment variables (.env)
+// read environment variables (.env from main folder)
 require('dotenv').config({ path: '../../.env' });
 
 // database configuration

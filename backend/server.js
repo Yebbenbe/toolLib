@@ -1,4 +1,4 @@
-// load .env data into process.env
+// load .env data into process.env from main folder
 require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
@@ -62,14 +62,18 @@ app.get('/test/db', (req, res) => {
 
 // Route to get tools available to a user based on location. The main grid page
 app.get('/tools', (req, res) => {
-  const userId = req.query.userId; // Assume userId is passed as a query parameter, because that's easier than weird URL's
+  const userId = req.session.userId; // Retrieve UserID from session
+
+  if (!userId) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
   db.query(`
     SELECT Tools.*, 
       (6371 * acos(cos(radians(Borrower.Latitude)) * cos(radians(Owner.Latitude)) * cos(radians(Owner.Longitude) - radians(Borrower.Longitude)) + sin(radians(Borrower.Latitude)) * sin(radians(Owner.Latitude)))) AS Distance 
     FROM Tools 
     JOIN Users AS Owner ON Tools.OwnerID = Owner.UserID 
     JOIN Users AS Borrower ON Borrower.UserID = ? 
-    HAVING Distance <= Owner.LendingDiameter;
+    WHERE Distance <= Owner.LendingDiameter;
   `, [userId], (err, result) => {
     if (err) {
       console.error('Error grabbing available tools:', err);
@@ -181,11 +185,15 @@ app.post('/api/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
     
     const insertQuery = `
-      INSERT INTO Users ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude", "Password")
+      INSERT INTO Users ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude", "PasswordHash")
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING "UserID";
     `;
-    const { rows } = await db.query(insertQuery, [name, address, email, phone, lendingDiameter, latitude, longitude, hashedPassword]);
+    const { rows } = await db.query(insertQuery, [name, address, email, phone, lendingDiameter, latitude, longitude, PasswordHash]);
+
+    // set session
+    req.session.userId = rows[0].UserID;
+    req.session.email = email;
     
     res.status(201).json({ userId: rows[0].UserID, message: 'User registered successfully' });
   } catch (err) {
@@ -197,22 +205,32 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const { rows } = await db.query('SELECT * FROM Users WHERE Email = $1', [email]);
+    // grab hashed pass and uid based on email
+    const { rows } = await db.query('SELECT "UserID", "PasswordHash" FROM Users WHERE Email = $1', [email]);
     
+    // check if there are results
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
     
-    const user = rows[0];
-    const passwordMatch = await bcrypt.compare(password, user.Password);
+    // extract user data
+    const { UserID, PasswordHash } = rows[0];
     
-    if (!passwordMatch) {
+    // compare hashed password from database with provided password
+    const passwordMatch = await bcrypt.compare(password, PasswordHash);
+    
+    // if passwords match, login successful
+    if (passwordMatch) {
+      // set up session for logged-in user
+      req.session.userId = UserID; // Store UserID in session
+      req.session.email = email;   // Store email in session
+
+      // respond with success
+      return res.status(200).json({ userId: UserID, message: 'Login successful' });
+    } else {
+      // Passwords do not match
       return res.status(401).json({ error: 'Incorrect password' });
     }
-    
-    // Set up session or token for logged-in user (e.g., using JWT)
-    // Example: res.json({ userId: user.UserID, token: 'your_generated_token_here' });
-    res.status(200).json({ userId: user.UserID, message: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err);
     res.status(500).json({ error: 'An error occurred while logging in' });
