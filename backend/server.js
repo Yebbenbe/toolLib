@@ -1,4 +1,4 @@
-// Load .env data into process.env
+// load .env data into process.env from main folder
 require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
@@ -225,22 +225,18 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const { rows } = await pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
-
+    
+    // check if there are results
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     const user = rows[0];
     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
-
+    
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
-
-    // Store userID in session
-    req.session.userID = user.UserID;
-
-    res.status(200).json({ userId: user.UserID, message: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err);
     res.status(500).json({ error: 'An error occurred while logging in' });
