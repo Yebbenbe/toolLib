@@ -1,4 +1,4 @@
-// load .env data into process.env
+// Load .env data into process.env
 require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
@@ -7,14 +7,11 @@ const { pool } = require('./db/db'); // Importing pool from db.js
 const app = express();
 const PORT = 3005;
 const cors = require('cors');
-// session and auth stuff
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-// const toolsRouter = require('./routes/tools');  unused
 
 // Middleware
-// app.use('/api', toolsRouter);  unused
 app.use(cookieParser());
 app.use(cors());
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -25,27 +22,6 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } // not using https
 }));
-
-
-/* ROUTES
-/home - my user page. Should show my requests + status, and any requests submitted to me, plus button to accept
-/tools- component showing available tools to borrow
-/tools/:toolID - component for single tool and it's history
-/user/:userID - component for a specific user, includes any tools they've listed
-/requests/:userID - a user's requests (borrower AND lender)
-/request/:requestID - a specific request
-/help generic help page 
-
-/login - POST route
-/register - POST route
-/POST route to update user account info, to do
-/POST route to submit Request, Approve Request. to do
-/login and /register for component? don't think so 
-*/
-
-// to do
-// history on tool page. 
-// POST routes: request, approve, register, login, tool delete, submit review 
 
 // Database Test Route
 app.get('/test/db', (req, res) => {
@@ -60,22 +36,25 @@ app.get('/test/db', (req, res) => {
   });
 });
 
-// Route to get tools available to a user based on location. The main grid page
+// Route to get tools available to a user based on location
 app.get('/tools', (req, res) => {
-  const userId = req.query.userId; // Assume userId is passed as a query parameter, because that's easier than weird URL's
-  db.query(`
-    SELECT Tools.*, 
-      (6371 * acos(cos(radians(Borrower.Latitude)) * cos(radians(Owner.Latitude)) * cos(radians(Owner.Longitude) - radians(Borrower.Longitude)) + sin(radians(Borrower.Latitude)) * sin(radians(Owner.Latitude)))) AS Distance 
-    FROM Tools 
-    JOIN Users AS Owner ON Tools.OwnerID = Owner.UserID 
-    JOIN Users AS Borrower ON Borrower.UserID = ? 
-    HAVING Distance <= Owner.LendingDiameter;
-  `, [userId], (err, result) => {
+  const userId = req.query.userId; // Assume userId is passed as a query parameter
+
+  const query = `
+    SELECT "Tools".*, 
+      (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
+    FROM "Tools" 
+    JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID" 
+    JOIN "Users" AS Borrower ON Borrower."UserID" = $1
+    WHERE (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) <= Owner."LendingDiameter";
+  `;
+
+  pool.query(query, [userId], (err, result) => {
     if (err) {
       console.error('Error grabbing available tools:', err);
       return res.status(500).json({ error: 'An error occurred while grabbing available tools' });
     }
-    res.status(200).json({ tools: result });
+    res.status(200).json({ tools: result.rows });
   });
 });
 
@@ -85,8 +64,8 @@ app.get('/users/:userID/details', async (req, res) => {
 
   try {
     // Fetch user details including Name and Lend Radius
-    const userDetailsQuery = 'SELECT Name, LendingDiameter FROM Users WHERE UserID = ?';
-    const userResult = await db.query(userDetailsQuery, [userId]);
+    const userDetailsQuery = 'SELECT "Name", "LendingDiameter" FROM "Users" WHERE "UserID" = $1';
+    const userResult = await pool.query(userDetailsQuery, [userId]);
     const user = userResult.rows[0];
 
     if (!user) {
@@ -94,8 +73,8 @@ app.get('/users/:userID/details', async (req, res) => {
     }
 
     // Fetch tools listed by the user
-    const toolsQuery = 'SELECT * FROM Tools WHERE OwnerID = ?';
-    const toolsResult = await db.query(toolsQuery, [userId]);
+    const toolsQuery = 'SELECT * FROM "Tools" WHERE "OwnerID" = $1';
+    const toolsResult = await pool.query(toolsQuery, [userId]);
     const tools = toolsResult.rows;
 
     res.status(200).json({ user, tools });
@@ -105,32 +84,32 @@ app.get('/users/:userID/details', async (req, res) => {
   }
 });
 
-// Route to get all tools for a given user aka Tools i'm lending
+// Route to get all tools for a given user (Tools I'm lending)
 app.get('/:userId/tools', (req, res) => {
   const userId = req.params.userId;
-  db.query('SELECT * FROM Tools WHERE OwnerID = ?', [userId], (err, result) => {
+  pool.query('SELECT * FROM "Tools" WHERE "OwnerID" = $1', [userId], (err, result) => {
     if (err) {
       console.error('Error grabbing user tools:', err);
       return res.status(500).json({ error: 'An error occurred while grabbing user tools' });
     }
-    res.status(200).json({ tools: result });
+    res.status(200).json({ tools: result.rows });
   });
 });
 
-// Route to get a specific tool, and it's associated Requests
+// Route to get a specific tool and its associated requests
 app.get('/tool/:toolId', async (req, res) => {
   const toolId = req.params.toolId;
 
   try {
     // Query to fetch tool details and requests
     const query = `
-      SELECT Tools.*, Requests.*
-      FROM Tools
-      LEFT JOIN Requests ON Tools.ToolID = Requests.ToolID
-      WHERE Tools.ToolID = ?
+      SELECT "Tools".*, "Requests".*
+      FROM "Tools"
+      LEFT JOIN "Requests" ON "Tools"."ToolID" = "Requests"."ToolID"
+      WHERE "Tools"."ToolID" = $1
     `;
 
-    const { rows } = await db.query(query, [toolId]);
+    const { rows } = await pool.query(query, [toolId]);
 
     // Separate tool details and requests from the query result
     const toolDetails = {
@@ -155,17 +134,16 @@ app.get('/tool/:toolId', async (req, res) => {
   }
 });
 
-
 // Route to get all requests for a user (borrower or lender)
 app.get('/requests/:userID', async (req, res) => {
   const userID = req.params.userID;
 
   try {
     const query = `
-      SELECT * FROM Requests 
-      WHERE BorrowerID = $1 OR ToolID IN (SELECT ToolID FROM Tools WHERE OwnerID = $1)
+      SELECT * FROM "Requests" 
+      WHERE "BorrowerID" = $1 OR "ToolID" IN (SELECT "ToolID" FROM "Tools" WHERE "OwnerID" = $1)
     `;
-    const { rows } = await db.query(query, [userID]);
+    const { rows } = await pool.query(query, [userID]);
 
     res.status(200).json({ requests: rows });
   } catch (err) {
@@ -174,18 +152,19 @@ app.get('/requests/:userID', async (req, res) => {
   }
 });
 
+// Route to register a new user
 app.post('/api/register', async (req, res) => {
   const { name, address, email, phone, lendingDiameter, latitude, longitude, password } = req.body;
   try {
-    // hash the password before storing it
+    // Hash the password before storing it
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
     
     const insertQuery = `
-      INSERT INTO Users ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude", "Password")
+      INSERT INTO "Users" ("Name", "Address", "Email", "Phone", "LendingDiameter", "Latitude", "Longitude", "PasswordHash")
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING "UserID";
     `;
-    const { rows } = await db.query(insertQuery, [name, address, email, phone, lendingDiameter, latitude, longitude, hashedPassword]);
+    const { rows } = await pool.query(insertQuery, [name, address, email, phone, lendingDiameter, latitude, longitude, hashedPassword]);
     
     res.status(201).json({ userId: rows[0].UserID, message: 'User registered successfully' });
   } catch (err) {
@@ -194,17 +173,18 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// Route to log in a user
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const { rows } = await db.query('SELECT * FROM Users WHERE Email = $1', [email]);
+    const { rows } = await pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
     
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
     
     const user = rows[0];
-    const passwordMatch = await bcrypt.compare(password, user.Password);
+    const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
     
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
@@ -219,13 +199,14 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// Route to log out a user
 app.post('/api/logout', (req, res) => {
   // Clear session data
-// req.session.destroy((err) => { ... });
- 
+  // req.session.destroy((err) => { ... });
   res.status(200).json({ message: 'Logout successful' });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+``
