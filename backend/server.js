@@ -83,7 +83,7 @@ app.get('/tools', (req, res) => {
   });
 });
 
-// Combined route to fetch user details and tools
+// Combined route to fetch MY user details and tools
 app.get('/users/:userID/details', async (req, res) => {
   const userId = req.session.userId; // Retrieve UserID from session
 
