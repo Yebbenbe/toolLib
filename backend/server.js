@@ -3,20 +3,22 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
-const db = require('./db/db');
+const { pool } = require('./db/db'); // Importing pool from db.js
 const app = express();
-const PORT = 3001;
+const PORT = 3005;
 const cors = require('cors');
 // session and auth stuff
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+// const toolsRouter = require('./routes/tools');  unused
 
-// Use CORS
+// Middleware
+// app.use('/api', toolsRouter);  unused
+app.use(cookieParser());
 app.use(cors());
-app.use('/public', express.static(path.join(__dirname, 'public'))); // Serve static files from the "public" directory
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-
 //session stuff
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -24,9 +26,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } // not using https
 }));
-// unused router 
-// const toolsRouter = require('./routes/tools');
-// app.use('/api', toolsRouter);  
+
 
 /* ROUTES
 /home - my user page. Should show my requests + status, and any requests submitted to me, plus button to accept
@@ -48,6 +48,18 @@ app.use(session({
 // history on tool page. 
 // POST routes: request, approve, register, login, tool delete, submit review 
 
+// Database Test Route
+app.get('/test/db', (req, res) => {
+  console.log('Executing query...');
+  pool.query('SELECT * FROM "Users"', (err, result) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: 'An error occurred while fetching users' });
+    }
+    console.log('Query result:', result.rows); // Log query result for further inspection
+    res.status(200).json({ users: result.rows });
+  });
+});
 
 // Route to get tools available to a user based on location. The main grid page
 app.get('/tools', (req, res) => {
