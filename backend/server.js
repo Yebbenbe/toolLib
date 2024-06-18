@@ -11,9 +11,14 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+};
+
 // Middleware
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(session({
@@ -22,6 +27,25 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false } // not using https
 }));
+
+// Middleware to check if the user is authenticated
+const isAuthenticated = (req, res, next) => {
+  // if (req.session && req.session.userID) {
+  //   return next();
+  // } else {
+  //   return res.status(401).json({ error: 'Unauthorized' });
+  // }
+  return next();
+};
+
+// Endpoint to check authentication status
+app.get('/api/authenticate', (req, res) => {
+  if (req.session && req.session.userID) {
+    res.json({ authenticated: true, userId: req.session.userID });
+  } else {
+    res.json({ authenticated: false });
+  }
+});
 
 // Database Test Route
 app.get('/test/db', (req, res) => {
@@ -36,20 +60,39 @@ app.get('/test/db', (req, res) => {
   });
 });
 
-// Route to get tools available to a user based on location
 app.get('/tools', (req, res) => {
-  const userId = req.query.userId; // Assume userId is passed as a query parameter
+  const userId = req.session.userID;
+  const distanceLimit = req.query.distance; // Optional distance limit parameter
 
-  const query = `
-    SELECT "Tools".*, 
-      (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
-    FROM "Tools" 
-    JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID" 
-    JOIN "Users" AS Borrower ON Borrower."UserID" = $1
-    WHERE (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) <= Owner."LendingDiameter";
-  `;
+  let query;
+  let queryParams = [];
 
-  pool.query(query, [userId], (err, result) => {
+  if (userId) {
+    if (distanceLimit) {
+      query = `
+        SELECT "Tools".*, 
+          (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
+        FROM "Tools" 
+        JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID" 
+        JOIN "Users" AS Borrower ON Borrower."UserID" = $1
+        WHERE (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) <= $2
+      `;
+      queryParams.push(userId, distanceLimit);
+    } else {
+      query = `
+        SELECT "Tools".*, 
+          (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
+        FROM "Tools" 
+        JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID" 
+        JOIN "Users" AS Borrower ON Borrower."UserID" = $1
+      `;
+      queryParams.push(userId);
+    }
+  } else {
+    query = 'SELECT * FROM "Tools"';
+  }
+
+  pool.query(query, queryParams, (err, result) => {
     if (err) {
       console.error('Error grabbing available tools:', err);
       return res.status(500).json({ error: 'An error occurred while grabbing available tools' });
@@ -59,8 +102,8 @@ app.get('/tools', (req, res) => {
 });
 
 // Combined route to fetch user details and tools
-app.get('/users/:userID/details', async (req, res) => {
-  const userId = req.params.userID;
+app.get('/users/details', isAuthenticated, async (req, res) => {
+  const userId = req.session.userID;
 
   try {
     // Fetch user details including Name and Lend Radius
@@ -85,8 +128,8 @@ app.get('/users/:userID/details', async (req, res) => {
 });
 
 // Route to get all tools for a given user (Tools I'm lending)
-app.get('/:userId/tools', (req, res) => {
-  const userId = req.params.userId;
+app.get('/user/tools', isAuthenticated, (req, res) => {
+  const userId = req.session.userID;
   pool.query('SELECT * FROM "Tools" WHERE "OwnerID" = $1', [userId], (err, result) => {
     if (err) {
       console.error('Error grabbing user tools:', err);
@@ -135,8 +178,8 @@ app.get('/tool/:toolId', async (req, res) => {
 });
 
 // Route to get all requests for a user (borrower or lender)
-app.get('/requests/:userID', async (req, res) => {
-  const userID = req.params.userID;
+app.get('/requests', isAuthenticated, async (req, res) => {
+  const userID = req.session.userID;
 
   try {
     const query = `
@@ -165,6 +208,9 @@ app.post('/api/register', async (req, res) => {
       RETURNING "UserID";
     `;
     const { rows } = await pool.query(insertQuery, [name, address, email, phone, lendingDiameter, latitude, longitude, hashedPassword]);
+
+    // Store userID in session
+    req.session.userID = rows[0].UserID;
     
     res.status(201).json({ userId: rows[0].UserID, message: 'User registered successfully' });
   } catch (err) {
@@ -173,25 +219,27 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+
 // Route to log in a user
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const { rows } = await pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
-    
+
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
-    
+
     const user = rows[0];
     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
-    
+
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
-    
-    // Set up session or token for logged-in user (e.g., using JWT)
-    // Example: res.json({ userId: user.UserID, token: 'your_generated_token_here' });
+
+    // Store userID in session
+    req.session.userID = user.UserID;
+
     res.status(200).json({ userId: user.UserID, message: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err);
@@ -202,11 +250,15 @@ app.post('/api/login', async (req, res) => {
 // Route to log out a user
 app.post('/api/logout', (req, res) => {
   // Clear session data
-  // req.session.destroy((err) => { ... });
-  res.status(200).json({ message: 'Logout successful' });
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error logging out:', err);
+      return res.status(500).json({ error: 'An error occurred while logging out' });
+    }
+    res.status(200).json({ message: 'Logout successful' });
+  });
 });
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-``

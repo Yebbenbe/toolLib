@@ -23,7 +23,7 @@ const CreateToolForm = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/api/tools', {
+            const response = await fetch('http://localhost:3005/api/tools', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

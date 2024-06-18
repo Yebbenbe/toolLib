@@ -1,49 +1,65 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Login.scss';
 
-const Login = ({ setAuth }) => {
-    const [username, setUsername] = useState('');
+function Login() {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you would typically validate the username and password
-        if (username && password) {
-            setAuth({ username });
-            console.log("setAuth: " + username);
-            navigate('/'); // Redirect to home page after login
+        setError('');
+        try {
+            const response = await fetch('http://localhost:3005/api/login', {
+                method: 'POST',
+                credentials: 'include', // Ensure cookies are included
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.error || 'An unknown error occurred');
+            } else {
+                // Redirect to the borrow page
+                navigate('/borrow');
+            }
+        } catch (error) {
+            setError('An error occurred while logging in');
+            console.error('Error:', error);
         }
     };
 
     return (
-        <form className="login-form" onSubmit={handleSubmit}>
-            <div>
-                <label>
-                    Username:
+        <div>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Email:</label>
                     <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Password:
+                </div>
+                <div>
+                    <label>Password:</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                </label>
-            </div>
-            <button type="submit">Login</button>
-        </form>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            {error && <div style={{ color: 'red' }}>{error}</div>}
+        </div>
     );
-};
+}
 
 export default Login;

@@ -63,7 +63,7 @@ const useApplicationData = () => {
     };
 
     useEffect(() => {
-      fetch('http://localhost:3001/api/tools')
+      fetch('http://localhost:3005/tools')
      .then(res => res.json())
      .then(toolData => {loadToolData(toolData)})
     }, []);
@@ -92,7 +92,7 @@ const useApplicationData = () => {
     };
 
     const onClickOption = (optionId) => {
-      fetch('http://localhost:3001/api/options/tools/' + optionId)
+      fetch('http://localhost:3005/api/options/tools/' + optionId)
      .then(res => res.json())
      .then(data => {
         try {
