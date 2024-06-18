@@ -85,8 +85,11 @@ app.get('/tools', (req, res) => {
 
 // Combined route to fetch user details and tools
 app.get('/users/:userID/details', async (req, res) => {
-  const userId = req.params.userID;
+  const userId = req.session.userId; // Retrieve UserID from session
 
+  if (!userId) {
+    return res.status(401).json({ error: 'User not authenticated' });
+  }
   try {
     // Fetch user details including Name and Lend Radius
     const userDetailsQuery = 'SELECT Name, LendingDiameter FROM Users WHERE UserID = ?';
