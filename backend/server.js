@@ -1,4 +1,4 @@
-// Load .env data into process.env
+// load .env data into process.env from main folder
 require('dotenv').config({ path: '../.env' });
 
 const express = require('express');
@@ -179,6 +179,7 @@ app.post('/api/login', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
     
+    // check if there are results
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -186,13 +187,21 @@ app.post('/api/login', async (req, res) => {
     const user = rows[0];
     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
     
-    if (!passwordMatch) {
+    // compare hashed password from database with provided password
+    const passwordMatch = await bcrypt.compare(password, PasswordHash);
+    
+    // if passwords match, login successful
+    if (passwordMatch) {
+      // set up session for logged-in user
+      req.session.userId = UserID; // Store UserID in session
+      req.session.email = email;   // Store email in session
+
+      // respond with success
+      return res.status(200).json({ userId: UserID, message: 'Login successful' });
+    } else {
+      // Passwords do not match
       return res.status(401).json({ error: 'Incorrect password' });
     }
-    
-    // Set up session or token for logged-in user (e.g., using JWT)
-    // Example: res.json({ userId: user.UserID, token: 'your_generated_token_here' });
-    res.status(200).json({ userId: user.UserID, message: 'Login successful' });
   } catch (err) {
     console.error('Error logging in user:', err);
     res.status(500).json({ error: 'An error occurred while logging in' });
