@@ -14,7 +14,7 @@ const optionList = [
   },
   {
     id: "3",
-    name: "Login",
+    name: "Logout",
   },
 ];
 
