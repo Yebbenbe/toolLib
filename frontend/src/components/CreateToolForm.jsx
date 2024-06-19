@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/CreateToolForm.scss';
 
 const CreateToolForm = (props) => {
+
     const [formData, setFormData] = useState({
         name: '',
         picture: '',
@@ -79,12 +80,6 @@ const CreateToolForm = (props) => {
                 <label>
                     DI4U:
                     <input type="checkbox" name="di4u" checked={formData.di4u} onChange={handleChange} />
-                </label>
-            </div>
-            <div className='create-tool__ownerID'>
-                <label>
-                    Owner ID:
-                    <input type="number" name="ownerId" value={props.auth.username} onChange={handleChange} readOnly />
                 </label>
             </div>
             <button className='create-tool__submit' type="submit">Submit</button>
