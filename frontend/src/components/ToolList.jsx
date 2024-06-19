@@ -4,6 +4,7 @@ import ToolListItem from "./ToolListItem";
 
 const ToolList = (props) => {
   // Ensure tools is an array
+  console.log(props.tools.tools);
   const tools = Array.isArray(props.tools.tools) ? props.tools.tools : [];
 
   return (

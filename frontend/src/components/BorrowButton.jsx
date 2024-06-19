@@ -2,8 +2,10 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import BorrowIcon from './BorrowIcon';
 import '../styles/BorrowButton.scss';
+import { useAuth } from '../AuthContext'; // Import the useAuth hook
 
 function BorrowButton(props) {
+  const { auth } = useAuth();
   const [selected, setSelected] = useState(false);
   const handleClick = () => {
     console.log(props.toolId);
@@ -26,7 +28,7 @@ function BorrowButton(props) {
   return (
     <div className="tool-list__borrow-icon" onClick={handleClick}>
       <div className="tool-list__borrow-icon-button">
-        <BorrowIcon selected={selected} />
+        <BorrowIcon selected={selected} sameUser={auth.userId == props.toolDetails.OwnerID} />
       </div>
     </div>
   );

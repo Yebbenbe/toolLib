@@ -14,7 +14,7 @@ const ToolListItem = (props) => {
       <div className="tool-list__user-details">
         <div className="tool-list__user-name">{props.toolDetails.Name}</div>
         <div className="tool-list__user-money">Charge ${props.toolDetails.Charge}, Deposit ${props.toolDetails.Deposit}</div>
-        <BorrowButton toolId={props.toolDetails.ToolID} borrows={props.borrows} setBorrow={props.setBorrow} />
+        <BorrowButton toolDetails={props.toolDetails} toolId={props.toolDetails.ToolID} borrows={props.borrows} setBorrow={props.setBorrow} />
       </div>
 
     </div>
