@@ -6,7 +6,7 @@ const OptionListItem = (props) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    const routes = ["/", "/borrow", "/lend", "/logout"];
+    const routes = ["/", "/borrow", "/lend", "/history", "/logout"];
     navigate(routes[props.optionDetails.id]);
   }
 

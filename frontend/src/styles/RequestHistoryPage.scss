@@ -1,0 +1,29 @@
+.request-history-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.request-history-list {
+  width: 100%;
+}
+
+.request-history-page h1 {
+  margin-bottom: 20px;
+}
+
+.request-history-page ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.request-history-page li {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.request-history-page p {
+  margin: 5px 0;
+}

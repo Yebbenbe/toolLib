@@ -14,6 +14,10 @@ const optionList = [
   },
   {
     id: "3",
+    name: "History",
+  },
+  {
+    id: "4",
     name: "Logout",
   },
 ];

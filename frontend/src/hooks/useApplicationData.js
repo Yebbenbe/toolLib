@@ -3,21 +3,16 @@ const useApplicationData = () => {
     const [state, dispatch] = useReducer(reducer, {
       tools: [],
       selectedTool: {
-        "id": null,
-        "location": {
-          "city": null,
-          "country": null
-        },
-        "urls": {
-          "full": null,
-          "regular": null
-        },
-        "user": {
-          "id": null,
-          "username": null,
-          "name": null,
-          "profile": null
-        }
+        "ToolID": 6,
+        "Name": "Ladder",
+        "Picture": "http://localhost:3005/public/images/ladder.png",
+        "Description": "A tall ladder for reaching high places.",
+        "Deposit": "40.00",
+        "Charge": "8.00",
+        "DI4U": true,
+        "OwnerID": 1,
+        "LendingDiameter": 10,
+        "distance": 0
     },
       borrowToolIds: [],
       isToolDetailsModalOpen: false,
