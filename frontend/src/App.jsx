@@ -25,9 +25,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ProtectedRoute auth={auth} component={<BorrowPage auth={auth} />} />} />
-        <Route path="/borrow" element={<ProtectedRoute auth={auth} component={<BorrowPage auth={auth} />} />} />
-        <Route path="/lend" element={<ProtectedRoute auth={auth} component={<LendPage auth={auth} />} />} />
+        <Route path="/" element={<BorrowPage auth={auth} />} />
+        <Route path="/borrow" element={<BorrowPage auth={auth} />} />
+        <Route path="/lend" element={<LendPage auth={auth} />} />
         <Route path="/login" element={<Login setAuth={setAuth} />} />
       </Routes>
     </BrowserRouter>

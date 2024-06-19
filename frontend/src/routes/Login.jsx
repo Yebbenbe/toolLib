@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -26,6 +26,7 @@ function Login() {
                 setError(data.error || 'An unknown error occurred');
             } else {
                 // Redirect to the borrow page
+                props.setAuth(email);
                 navigate('/borrow');
             }
         } catch (error) {
