@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../styles/CreateToolForm.scss';
 
 const CreateToolForm = (props) => {
-
     const [formData, setFormData] = useState({
         name: '',
         picture: '',
@@ -10,14 +9,13 @@ const CreateToolForm = (props) => {
         deposit: '',
         charge: '',
         di4u: false,
-        ownerId: ''
     });
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: type === 'checkbox' ? checked : value,
         });
     };
 
@@ -29,6 +27,7 @@ const CreateToolForm = (props) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include', // Include cookies in the request
                 body: JSON.stringify(formData),
             });
 
@@ -38,51 +37,51 @@ const CreateToolForm = (props) => {
 
             const data = await response.json();
             console.log('Tool created successfully:', data);
+            navigate('/borrow');
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
     };
 
-
     return (
-        <form className='create-tool__form' onSubmit={handleSubmit}>
-            <div className='name-tool__form'>
+        <form className="create-tool__form" onSubmit={handleSubmit}>
+            <div className="name-tool__form">
                 <label>
                     Name:
                     <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                 </label>
             </div>
-            <div className='create-tool__picture'>
+            <div className="create-tool__picture">
                 <label>
                     Picture URL:
                     <input type="text" name="picture" value={formData.picture} onChange={handleChange} />
                 </label>
             </div>
-            <div className='create-tool__description'>
+            <div className="create-tool__description">
                 <label>
                     Description:
                     <textarea name="description" value={formData.description} onChange={handleChange}></textarea>
                 </label>
             </div>
-            <div className='create-tool__deposit'>
+            <div className="create-tool__deposit">
                 <label>
                     Deposit:
                     <input type="number" name="deposit" value={formData.deposit} onChange={handleChange} step="0.01" />
                 </label>
             </div>
-            <div className='create-tool__charge'>
+            <div className="create-tool__charge">
                 <label>
                     Charge:
                     <input type="number" name="charge" value={formData.charge} onChange={handleChange} step="0.01" />
                 </label>
             </div>
-            <div className='create-tool__DI4U'>
+            <div className="create-tool__DI4U">
                 <label>
                     DI4U:
                     <input type="checkbox" name="di4u" checked={formData.di4u} onChange={handleChange} />
                 </label>
             </div>
-            <button className='create-tool__submit' type="submit">Submit</button>
+            <button className="create-tool__submit" type="submit">Submit</button>
         </form>
     );
 };

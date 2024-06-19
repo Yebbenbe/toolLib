@@ -201,6 +201,33 @@ app.get('/requests', isAuthenticated, async (req, res) => {
   }
 });
 
+// Route to create a new tool
+app.post('/api/tools', async (req, res) => {
+  const { name, picture, description, deposit, charge, di4u } = req.body;
+  const userId = req.session.userID; // Get the user ID from the session
+
+  if (!userId) {
+    return res.status(401).json({ error: 'Unauthorized: No user ID in session' });
+  }
+
+  try {
+    const query = `
+      INSERT INTO "Tools" ("Name", "Picture", "Description", "Deposit", "Charge", "DI4U", "OwnerID")
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING "ToolID";
+    `;
+    const values = [name, picture, description, deposit, charge, di4u, userId];
+    
+    const result = await pool.query(query, values);
+    const newToolId = result.rows[0].ToolID;
+
+    res.status(201).json({ message: 'Tool created successfully', toolId: newToolId });
+  } catch (err) {
+    console.error('Error creating tool:', err);
+    res.status(500).json({ error: 'An error occurred while creating the tool' });
+  }
+});
+
 // Route to register a new user
 app.post('/api/register', async (req, res) => {
   const { name, address, email, phone, lendingDiameter, latitude, longitude, password } = req.body;
