@@ -66,8 +66,13 @@ app.get('/tools', (req, res) => {
   let query;
   let queryParams = [];
 
+  console.log(req.session);
+  console.log(req.session.userID);
+
   if (userId) {
+    console.log("/tools userId: ", userId);
     if (distanceLimit) {
+      console.log("distanceLimit: ", distanceLimit);
       query = `
         SELECT "Tools".*, 
           (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
@@ -78,6 +83,7 @@ app.get('/tools', (req, res) => {
       `;
       queryParams.push(userId, distanceLimit);
     } else {
+      console.log("no distance limit");
       query = `
         SELECT "Tools".*, 
           (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
@@ -88,6 +94,7 @@ app.get('/tools', (req, res) => {
       queryParams.push(userId);
     }
   } else {
+    console.log("/tools return all");
     query = 'SELECT * FROM "Tools"';
   }
 
@@ -233,7 +240,7 @@ app.post('/api/login', async (req, res) => {
     const user = rows[0];
     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
     
-    console.log("Login: " + passwordMatch);
+    console.log("/api/login Login: " + user);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
@@ -241,7 +248,13 @@ app.post('/api/login', async (req, res) => {
     // Save user information in session
     req.session.userID = user.UserID;
     req.session.email = user.Email;
+    console.log(user.UserID)
+    console.log(req.session.userID)
+    console.log(req.session.email)
+    console.log(user.Email)
 
+    // Log session information for debugging
+    console.log('Session after setting userID:', req.session);
     // Return user ID to the client
     return res.status(200).json({ userId: user.UserID, message: 'Login successful' });
 
