@@ -3,7 +3,7 @@ import '../styles/NavigationBar.scss';
 import OptionList from './OptionList';
 import { useAuth } from '../AuthContext'; // Import the useAuth hook
 
-const Navigation = ({ onClickOption }) => {
+const Navigation = ({ }) => {
   const { auth, setAuth } = useAuth(); // Use the useAuth hook to get auth state
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Navigation = ({ onClickOption }) => {
       ) : (
         <span className="top-nav-bar__username">Welcome, Guest</span>
       )}
-      <OptionList onClickOption={onClickOption} />
+      <OptionList />
     </div>
   );
 };

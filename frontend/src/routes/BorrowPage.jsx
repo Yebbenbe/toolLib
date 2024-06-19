@@ -15,7 +15,7 @@ const BorrowPage = ({ auth }) => {
 
     return (
         <div className="BorrowPage">
-            <BorrowHome auth={auth} state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
+            <BorrowHome state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
             <ToolDetailsModal onCloseToolDetailsModal={onCloseToolDetailsModal} setSelectedTool={onToolSelect} state={state} setBorrow={updateToBorrowToolIds} />
         </div>
     );

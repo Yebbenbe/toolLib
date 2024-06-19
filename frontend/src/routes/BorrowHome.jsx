@@ -6,7 +6,7 @@ import Navigation from 'components/NavigationBar';
 const BorrowHome = (props) => {
   return (
     <div className="borrow-home">
-      <Navigation onClickOption={props.onClickOption} auth={props.auth} />
+      <Navigation />
       <ToolList
         tools={props.state.tools}
         setSelectedTool={props.setSelectedTool}

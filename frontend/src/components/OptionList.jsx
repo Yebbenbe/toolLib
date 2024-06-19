@@ -20,7 +20,7 @@ const optionList = [
 
 const OptionList = (props) => {
   const options = optionList.map((option, index) =>
-    <OptionListItem key={option.id} optionDetails={option} onClickOption={props.onClickOption} />
+    <OptionListItem key={option.id} optionDetails={option} />
   );
 
   return (

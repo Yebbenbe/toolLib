@@ -19,7 +19,7 @@ const LendPage = (auth) => {
     console.log("lendpage: " + auth)
     return (
         < div className="LendPage" >
-            < LendHome auth={auth} state={state} onClickOption={onClickOption} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
+            < LendHome state={state} setSelectedTool={onToolSelect} setBorrow={updateToBorrowToolIds} />
         </div >
     )
 }
