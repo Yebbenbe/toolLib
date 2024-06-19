@@ -4,7 +4,6 @@ import "../styles/ToolListItem.scss";
 import BorrowButton from "./BorrowButton.jsx";
 
 const ToolListItem = (props) => {
-  console.log(props.toolDetails)
   const handleClick = () => {
     props.setSelectedTool(props.toolDetails.toolid);
   }

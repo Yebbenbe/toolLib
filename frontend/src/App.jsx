@@ -22,6 +22,7 @@ const App = () => {
 
 const ProtectedRoute = ({ component }) => {
   const { auth } = useAuth();
+  console.log(auth);
   return auth ? component : <Navigate to="/login" />;
 };
 

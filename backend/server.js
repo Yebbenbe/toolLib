@@ -30,12 +30,11 @@ app.use(session({
 
 // Middleware to check if the user is authenticated
 const isAuthenticated = (req, res, next) => {
-  // if (req.session && req.session.userID) {
-  //   return next();
-  // } else {
-  //   return res.status(401).json({ error: 'Unauthorized' });
-  // }
-  return next();
+  if (req.session && req.session.userID) {
+    return next();
+  } else {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 };
 
 // Endpoint to check authentication status
@@ -120,10 +119,10 @@ app.get('/users/details', isAuthenticated, async (req, res) => {
     const toolsResult = await pool.query(toolsQuery, [userId]);
     const tools = toolsResult.rows;
 
-    res.status(200).json({ user, tools });
+    return res.status(200).json({ user, tools });
   } catch (err) {
     console.error('Error fetching user details and tools:', err);
-    res.status(500).json({ error: 'An error occurred while fetching user details and tools' });
+    return res.status(500).json({ error: 'An error occurred while fetching user details and tools' });
   }
 });
 
