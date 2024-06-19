@@ -5,7 +5,7 @@ import BorrowButton from "./BorrowButton.jsx";
 
 const ToolListItem = (props) => {
   const handleClick = () => {
-    props.setSelectedTool(props.toolDetails.toolid);
+    props.setSelectedTool(props.toolDetails.ToolID);
   }
 
   return (

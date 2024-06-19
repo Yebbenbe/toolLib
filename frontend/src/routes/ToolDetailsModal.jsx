@@ -48,11 +48,11 @@ const ToolDetailsModal = (props) => {
       </div>
 
       <div className="tool-details-modal__header">
-        <img className="tool-details-modal__image" src={props.state.selectedTool.picture} />
+        <img className="tool-details-modal__image" src={props.state.selectedTool.Picture} />
         <div className="tool-details-modal__tool-details">
-          <div className="tool-details-modal__tool-name" >{props.state.selectedTool.name}</div>
-          <div className="tool-details-modal__tool-money">Charge ${props.state.selectedTool.charge}, Deposit ${props.state.selectedTool.deposit}</div>
-          <div className="tool-details-modal__tool-description">{props.state.selectedTool.description}</div>
+          <div className="tool-details-modal__tool-name" >{props.state.selectedTool.Name}</div>
+          <div className="tool-details-modal__tool-money">Charge ${props.state.selectedTool.Charge}, Deposit ${props.state.selectedTool.Deposit}</div>
+          <div className="tool-details-modal__tool-description">{props.state.selectedTool.Description}</div>
           {/* <BorrowButton toolId={props.state.selectedTool.toolid} borrows={props.state.borrows} setBorrow={props.setBorrow} /> */}
         </div>
         {/* <div>Similar Tools</div>

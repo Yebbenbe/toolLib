@@ -42,7 +42,7 @@ const useApplicationData = () => {
         case ACTIONS.SELECT_TOOL:
           return ({
             ...state,
-            selectedTool: state.tools.find(tool => tool.toolid === action.toolid),
+            selectedTool: state.tools.tools.find(tool => tool.ToolID === action.ToolID),
             isToolDetailsModalOpen: true
           });
         case ACTIONS.DISPLAY_TOOL_DETAILS:
@@ -68,12 +68,12 @@ const useApplicationData = () => {
      .then(toolData => {loadToolData(toolData)})
     }, []);
 
-    const onToolSelect = toolid => {
-      if(state.tools.find(tool => tool.toolid === toolid)){
-        dispatch({type: ACTIONS.SELECT_TOOL, toolid: toolid});
+    const onToolSelect = ToolID => {
+      if(state.tools.tools.find(tool => tool.ToolID === ToolID)){
+        dispatch({type: ACTIONS.SELECT_TOOL, ToolID: ToolID});
       }else{
         throw new Error(
-          `Tool ID does not exist: ${toolid}`
+          `Tool ID does not exist: ${ToolID}`
         );
       }
     };
