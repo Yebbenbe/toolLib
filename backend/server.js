@@ -226,7 +226,7 @@ app.post('/api/login', async (req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM "Users" WHERE "Email" = $1', [email]);
     
-    // check if there are results
+    // Check if there are results
     if (rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -234,14 +234,24 @@ app.post('/api/login', async (req, res) => {
     const user = rows[0];
     const passwordMatch = await bcrypt.compare(password, user.PasswordHash);
     
+    console.log("Login: " + passwordMatch);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Incorrect password' });
     }
+
+    // Save user information in session
+    req.session.userID = user.UserID;
+    req.session.email = user.Email;
+
+    // Return user ID to the client
+    return res.status(200).json({ userId: user.UserID, message: 'Login successful' });
+
   } catch (err) {
     console.error('Error logging in user:', err);
-    res.status(500).json({ error: 'An error occurred while logging in' });
+    return res.status(500).json({ error: 'An error occurred while logging in' });
   }
 });
+
 
 // Route to log out a user
 app.post('/api/logout', (req, res) => {
