@@ -1,5 +1,5 @@
 import React from "react";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/ToolListItem.scss";
 import BorrowButton from "./BorrowButton.jsx";
 
@@ -9,17 +9,16 @@ const ToolListItem = (props) => {
   }
 
   return (
-    <div className="tool-list__item" >
-      <img className="tool-list__image" onClick={handleClick} src={props.toolDetails.Picture} />
-      <div className="tool-list__user-details">
-        <div className="tool-list__user-name">{props.toolDetails.Name}</div>
-        <div className="tool-list__user-money">Charge ${props.toolDetails.Charge}, Deposit ${props.toolDetails.Deposit}</div>
+    <div className="card h-100">
+      <div className="d-flex justify-content-center align-items-center" style={{height: '200px'}}>
+        <img className="card-img-top tool-list__image" onClick={handleClick} src={props.toolDetails.Picture} alt={props.toolDetails.Name} />
+      </div>
+      <div className="card-body">
+        <h5 className="card-title">{props.toolDetails.Name}</h5>
+        <p className="card-text"> Deposit: ${props.toolDetails.Deposit}</p>
         <BorrowButton toolDetails={props.toolDetails} toolId={props.toolDetails.ToolID} borrows={props.borrows} setBorrow={props.setBorrow} />
       </div>
-
     </div>
-
   )
 };
-
-export default ToolListItem;
+export default ToolListItem;  

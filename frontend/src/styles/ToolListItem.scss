@@ -1,3 +1,5 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
 .tool-list__item {
   margin: 12px;
   padding: 16px;
@@ -11,17 +13,12 @@
 
 .tool-list__image {
   user-select: none;
-  width: 300px;
-  height: 200px;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
-}
-
-.tool-list__image {
-  border-radius: 8px 8px 0px 0px;
-  user-select: none;
-  width: 300px;
-  height: 200px;
-  object-fit: cover;
+  display: block;
+  margin: auto;
 }
 
 .tool-list__user-profile {

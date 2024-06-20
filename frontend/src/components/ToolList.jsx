@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "../styles/ToolList.scss";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import ToolListItem from "./ToolListItem";
 
 const ToolList = (props) => {
@@ -8,22 +9,26 @@ const ToolList = (props) => {
   const tools = Array.isArray(props.tools.tools) ? props.tools.tools : [];
 
   return (
-    <ul className="tool-list">
-      {tools.length > 0 ? (
-        tools.map((tool) => (
-          <ToolListItem
-            key={tool.ToolID} // Assuming ToolID is the correct key
-            toolDetails={tool}
-            setSelectedTool={props.setSelectedTool}
-            borrows={props.borrows}
-            setBorrow={props.setBorrow}
-          />
-        ))
-      ) : (
-        <li>No tools available</li> // You can customize this message as needed
-      )}
-    </ul>
+    <div className="container mt-4">
+      <div className="row">
+        {tools.length > 0 ? (
+          tools.map((tool) => (
+            <div className="col-md-4 mb-4" key={tool.ToolID}>
+              <ToolListItem
+                toolDetails={tool}
+                setSelectedTool={props.setSelectedTool}
+                borrows={props.borrows}
+                setBorrow={props.setBorrow}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="col-12">
+            <p>No tools available</p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
-
 export default ToolList;
