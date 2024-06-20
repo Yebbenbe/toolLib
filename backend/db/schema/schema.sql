@@ -23,8 +23,8 @@ CREATE TABLE "Tools" (
   "Name" varchar(255) NOT NULL,
   "Picture" text, -- URL or file path to the image
   "Description" text,
-  "Deposit" decimal(10,2), -- Deposit requested (to be returned to borrower)
-  "Charge" decimal(10,2) NULL, -- Fee amount (to be decided if implemented)
+"Deposit" numeric DEFAULT 0, -- Deposit requested (to be returned to borrower), default to 0
+  "Charge" numeric DEFAULT 0, 
   "DI4U" bool, -- Whether the tool is available for drop-in-for-use
   "OwnerID" INT REFERENCES "Users" ("UserID"), -- Foreign key referencing Users(UserID)
   "LendingDiameter" INT 

@@ -220,8 +220,18 @@ app.post('/api/tools', async (req, res) => {
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING "ToolID";
     `;
-    const values = [name, picture, description, deposit, charge, di4u, userId];
-    
+
+    // Handle empty or undefined deposit and charge values
+    const values = [
+      name,
+      picture,
+      description,
+      deposit === '' || deposit === undefined ? 0 : deposit,
+      charge === '' || charge === undefined ? 0 : charge,
+      di4u,
+      userId
+    ];
+
     const result = await pool.query(query, values);
     const newToolId = result.rows[0].ToolID;
 
