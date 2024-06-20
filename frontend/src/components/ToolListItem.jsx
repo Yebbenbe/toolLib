@@ -10,19 +10,23 @@ const ToolListItem = (props) => {
 
   return (
     <div className="card h-100">
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+      <div className="card-img-container d-flex justify-content-center align-items-center">
         <img className="card-img-top tool-list__image" onClick={handleClick} src={props.toolDetails.Picture} alt={props.toolDetails.Name} />
       </div>
       <div className="card-body">
         <h5 className="card-title">
           <strong>{props.toolDetails.Name}</strong>
-          <small className="ml-2 text-muted">  owned by  </small>
+          <small className="ml-2 text-muted"> owned by </small>
           <span className="owner-name">{props.toolDetails.OwnerName}</span>
         </h5>
-        <p className="card-text">Deposit: ${props.toolDetails.Deposit}</p>
+        <p className="card-text mb-1">Deposit: ${props.toolDetails.Deposit}</p>
+        {props.toolDetails.Charge > 0 && (
+          <p className="card-text mb-1">Charge: ${props.toolDetails.Charge}</p>
+        )}
         <BorrowButton toolDetails={props.toolDetails} toolId={props.toolDetails.ToolID} borrows={props.borrows} setBorrow={props.setBorrow} />
       </div>
     </div>
-  )
+  );
 };
+
 export default ToolListItem;  
