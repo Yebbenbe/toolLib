@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import '../styles/NavigationBar.scss';
 import OptionList from './OptionList';
 import { useAuth } from '../AuthContext'; // Import the useAuth hook
+import Navbar from 'react-bootstrap/Navbar';
 
-const Navigation = ({ }) => {
+const Navigation = () => {
   const { auth, setAuth } = useAuth(); // Use the useAuth hook to get auth state
 
   useEffect(() => {
@@ -25,17 +26,12 @@ const Navigation = ({ }) => {
         .catch(error => console.error('Error fetching user details:', error));
     }
   }, [auth, setAuth]);
-
   return (
-    <div className="top-nav-bar">
-      <span className="top-nav-bar__logo">ToolsLib</span>
-      {auth && auth.username ? (
-        <span className="top-nav-bar__username">Welcome, {auth.username}</span>
-      ) : (
-        <span className="top-nav-bar__username">Welcome, Guest</span>
-      )}
+    <Navbar bg="light" variant="light" className="justify-content-between top-nav-bar fixed-top">
+      <Navbar.Brand className="top-nav-bar__logo">ToolsLib</Navbar.Brand>
+      <span className="top-nav-bar__username">{auth && auth.username ? `Welcome, ${auth.username}` : 'Welcome, Guest'}</span>
       <OptionList />
-    </div>
+    </Navbar>
   );
 };
 

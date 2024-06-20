@@ -1,11 +1,14 @@
 .request-history-page {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
 }
 
-.request-history-list {
-  width: 100%;
+.request-history-content {
+  flex: 1; /* Take remaining vertical space */
+  margin-left: 10vw; /* Adjust based on Navigation width */
+  padding: 20px;
+  width: calc(100vw - 10vw); /* Ensure content doesn't overlap Navigation */
+  overflow-y: auto; /* Enable scrolling if content exceeds viewport */
 }
 
 .request-history-page h1 {

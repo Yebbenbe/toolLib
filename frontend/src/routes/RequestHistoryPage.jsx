@@ -28,28 +28,28 @@ const RequestHistoryPage = () => {
     }, []);
 
     return (
-        <div className="request-history-page">
-            < Navigation />
-            <div className='request-history-list'>
-                <h1>Request Histories</h1>
-                {error && <div style={{ color: 'red' }}>{error}</div>}
-                <ul>
-                    {histories.map((history) => (
-                        <li key={history.RequestID}>
-                            <p>Tool ID: {history.ToolID}</p>
-                            <p>Borrower ID: {history.BorrowerID}</p>
-                            <p>Owner ID: {history.OwnerID}</p>
-                            <p>Status: {history.Status}</p>
-                            <p>Request Date: {new Date(history.RequestDate).toLocaleString()}</p>
-                            <p>Approve Date: {history.ApproveDate ? new Date(history.ApproveDate).toLocaleString() : 'N/A'}</p>
-                            <p>Borrow Date: {history.BorrowDate ? new Date(history.BorrowDate).toLocaleString() : 'N/A'}</p>
-                            <p>Return Date: {history.ReturnDate ? new Date(history.ReturnDate).toLocaleString() : 'N/A'}</p>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </div>
-    );
+      <div className="request-history-page">
+          <Navigation />
+          <div className='request-history-content'>
+              <h1>Request Histories</h1>
+              {error && <div style={{ color: 'red' }}>{error}</div>}
+              <ul>
+                  {histories.map((history) => (
+                      <li key={history.RequestID}>
+                          <p>Tool ID: {history.ToolID}</p>
+                          <p>Borrower ID: {history.BorrowerID}</p>
+                          <p>Owner ID: {history.OwnerID}</p>
+                          <p>Status: {history.Status}</p>
+                          <p>Request Date: {new Date(history.RequestDate).toLocaleString()}</p>
+                          <p>Approve Date: {history.ApproveDate ? new Date(history.ApproveDate).toLocaleString() : 'N/A'}</p>
+                          <p>Borrow Date: {history.BorrowDate ? new Date(history.BorrowDate).toLocaleString() : 'N/A'}</p>
+                          <p>Return Date: {history.ReturnDate ? new Date(history.ReturnDate).toLocaleString() : 'N/A'}</p>
+                      </li>
+                  ))}
+              </ul>
+          </div>
+      </div>
+  );
 };
 
 export default RequestHistoryPage;
