@@ -21,7 +21,7 @@ CREATE TABLE "Users" (
 CREATE TABLE "Tools" (
   "ToolID" SERIAL PRIMARY KEY, -- Auto-incrementing primary key
   "Name" varchar(255) NOT NULL,
-  "Picture" varchar(255), -- URL or file path to the image
+  "Picture" text, -- URL or file path to the image
   "Description" text,
   "Deposit" decimal(10,2), -- Deposit requested (to be returned to borrower)
   "Charge" decimal(10,2) NULL, -- Fee amount (to be decided if implemented)
