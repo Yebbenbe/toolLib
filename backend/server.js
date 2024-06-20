@@ -74,7 +74,7 @@ app.get('/tools', (req, res) => {
     if (distanceLimit) {
       console.log("distanceLimit: ", distanceLimit);
       query = `
-        SELECT "Tools".*, 
+        SELECT "Tools".*, Owner."Name" AS "OwnerName", 
           (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
         FROM "Tools" 
         JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID" 
@@ -85,7 +85,7 @@ app.get('/tools', (req, res) => {
     } else {
       console.log("no distance limit");
       query = `
-        SELECT "Tools".*, 
+        SELECT "Tools".*, Owner."Name" AS "OwnerName", 
           (6371 * acos(cos(radians(Borrower."Latitude")) * cos(radians(Owner."Latitude")) * cos(radians(Owner."Longitude") - radians(Borrower."Longitude")) + sin(radians(Borrower."Latitude")) * sin(radians(Owner."Latitude")))) AS Distance 
         FROM "Tools" 
         JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID" 
@@ -95,7 +95,11 @@ app.get('/tools', (req, res) => {
     }
   } else {
     console.log("/tools return all");
-    query = 'SELECT * FROM "Tools"';
+    query = `
+      SELECT "Tools".*, Owner."Name" AS "OwnerName"
+      FROM "Tools"
+      JOIN "Users" AS Owner ON "Tools"."OwnerID" = Owner."UserID"
+    `;
   }
 
   pool.query(query, queryParams, (err, result) => {

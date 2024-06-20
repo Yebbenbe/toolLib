@@ -10,12 +10,16 @@ const ToolListItem = (props) => {
 
   return (
     <div className="card h-100">
-      <div className="d-flex justify-content-center align-items-center" style={{height: '200px'}}>
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
         <img className="card-img-top tool-list__image" onClick={handleClick} src={props.toolDetails.Picture} alt={props.toolDetails.Name} />
       </div>
       <div className="card-body">
-        <h5 className="card-title">{props.toolDetails.Name}</h5>
-        <p className="card-text"> Deposit: ${props.toolDetails.Deposit}</p>
+        <h5 className="card-title">
+          <strong>{props.toolDetails.Name}</strong>
+          <small className="ml-2 text-muted">  owned by  </small>
+          <span className="owner-name">{props.toolDetails.OwnerName}</span>
+        </h5>
+        <p className="card-text">Deposit: ${props.toolDetails.Deposit}</p>
         <BorrowButton toolDetails={props.toolDetails} toolId={props.toolDetails.ToolID} borrows={props.borrows} setBorrow={props.setBorrow} />
       </div>
     </div>

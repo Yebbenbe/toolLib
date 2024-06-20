@@ -74,7 +74,7 @@ VALUES
 ('Drill', 'http://localhost:3005/public/images/drill.png', 'A powerful drill for heavy-duty tasks.', 50.00, 10.00, TRUE, 4, 20),
 ('Saw', 'http://localhost:3005/public/images/saw.png', 'A sharp saw for cutting wood.', 30.00, 6.00, FALSE, 5, 25),
 ('Ladder', 'http://localhost:3005/public/images/ladder.png', 'A tall ladder for reaching high places.', 40.00, 8.00, TRUE, 1, 10),
-('Plier', 'http://localhost:3005/public/images/plier.png', 'A strong plier for gripping and bending.', 10.00, 2.00, FALSE, 2, 5),
+('Pliers', 'http://localhost:3005/public/images/plier.png', 'A strong plier for gripping and bending.', 10.00, 2.00, FALSE, 2, 5),
 ('Tape Measure', 'http://localhost:3005/public/images/tape_measure.png', 'A tape measure for accurate measurements.', 5.00, 1.00, TRUE, 3, 15),
 ('Paint Brush', 'http://localhost:3005/public/images/paint_brush.png', 'A large paint brush for painting walls.', 8.00, 1.50, FALSE, 4, 20),
 ('Chisel', 'http://localhost:3005/public/images/chisel.png', 'A sharp chisel for carving wood.', 12.00, 2.50, TRUE, 5, 25);
